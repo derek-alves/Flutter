@@ -1,73 +1,60 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MyApp());
-}
+main() => runApp(QuizzApp());
 
-class MyApp extends StatelessWidget {
- 
+class QuizzApp extends StatelessWidget {
+  var perguntaSelecionada = 0;
+  void responder() {
+    perguntaSelecionada++;
+    print(perguntaSelecionada);
+  }
+
+  void Function() funcaoQueRetornaOutraFuncao() {
+    return () {
+      print('Pergunta respondida de outra maneira!!');
+    };
+  }
+
   @override
   Widget build(BuildContext context) {
+    final List<String> perguntas = [
+      "Qual é sua cor favorita?",
+      "Qual é o seu animal favorito?"
+    ];
+
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-    
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-     
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-   
-    return Scaffold(
-      appBar: AppBar(
-       
-        title: Text(widget.title),
-      ),
-      body: Center(
-    
-        child: Column(
-      
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'r',
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Quizz App'),
+        ),
+        body: Column(
+          children: [
+            Text(perguntas.elementAt(perguntaSelecionada)),
+            RaisedButton(
+              child: Text('Resposta 1'),
+              onPressed: responder,
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
+            RaisedButton(
+              child: Text('exemplo 2'),
+              onPressed: funcaoQueRetornaOutraFuncao(),
             ),
+            RaisedButton(
+              child: Text('exemplo 3'),
+              onPressed: () {
+                print('Resposta numero 3');
+              },
+            ),
+            RaisedButton(
+              child: Text('exemplo 4'),
+              onPressed: () => print('Resposta numero 4'),
+            ),
+            Column(
+              children: [],
+            )
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
