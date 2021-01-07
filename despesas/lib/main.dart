@@ -103,10 +103,13 @@ class _MyHomePageState extends State<MyHomePage> {
     final mediaQuery = MediaQuery.of(context);
     bool isLandScape = mediaQuery.orientation == Orientation.landscape;
 
+    final iconList = isIOS ? CupertinoIcons.news : Icons.list;
+    final iconChart = isIOS ? CupertinoIcons.refresh : Icons.show_chart;
+
     final actions = [
       if (isLandScape)
         _getIconButton(
-          _showChart ? Icons.list : Icons.pie_chart,
+          _showChart ? iconList : iconChart,
           () {
             setState(() {
               _showChart = !_showChart;
@@ -119,32 +122,32 @@ class _MyHomePageState extends State<MyHomePage> {
       )
     ];
 
-    final PreferredSizeWidget appBar =
-        isIOS
-            ? CupertinoNavigationBar(
-                middle: Text(
-                  'Despesas Pessoais',
-                  style: TextStyle(
-                      fontSize: 20 * MediaQuery.of(context).textScaleFactor),
-                ),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: actions,
-                ),
-              )
-            : AppBar(
-                title: Text(
-                  'Despesas Pessoais',
-                  style: TextStyle(
-                      fontSize: 20 * MediaQuery.of(context).textScaleFactor),
-                ),
-                actions: actions);
+    final PreferredSizeWidget appBar = isIOS
+        ? CupertinoNavigationBar(
+            middle: Text(
+              'Despesas Pessoais',
+              style: TextStyle(
+                  fontSize: 20 * MediaQuery.of(context).textScaleFactor),
+            ),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: actions,
+            ),
+          )
+        : AppBar(
+            title: Text(
+              'Despesas Pessoais',
+              style: TextStyle(
+                  fontSize: 20 * MediaQuery.of(context).textScaleFactor),
+            ),
+            actions: actions);
 
     final availableHeight = mediaQuery.size.height -
         appBar.preferredSize.height -
         mediaQuery.padding.top;
 
-    final bodyPage = SingleChildScrollView(
+    final bodyPage = SafeArea(
+        child: SingleChildScrollView(
       child: Column(
         children: <Widget>[
           // if (isLandScape)
@@ -177,7 +180,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
         ],
       ),
-    );
+    ));
 
     return isIOS
         ? CupertinoPageScaffold(
