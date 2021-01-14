@@ -1,4 +1,6 @@
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter/material.dart';
+
 import 'package:refeicoes/models/meal.dart';
 import '../models/category.dart';
 import '../data/dummy_data.dart';
@@ -34,6 +36,7 @@ class NewWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: ListView.builder(
+        
         itemCount: categoryMeals.length,
         itemBuilder: (ctx, index) {
           return MealItem(categoryMeals[index]);
