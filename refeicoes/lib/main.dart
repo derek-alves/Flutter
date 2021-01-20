@@ -4,6 +4,7 @@ import 'package:refeicoes/screens/meal_detail_screen.dart';
 import './screens/categories_screen.dart';
 import './screens/categories_meals_screen.dart';
 import './screens/tabs_screen.dart';
+import './screens/settings_screen.dart';
 import './utils/app_routes.dart';
 
 void main() => runApp(MyApp());
@@ -26,7 +27,8 @@ class MyApp extends StatelessWidget {
       routes: {
         AppRoutes.HOME: (ctx) => TabsScreen(),
         AppRoutes.CATEGORIES_MEALS: (ctx) => CategoriesMealsScreen(),
-        AppRoutes.MEAL_DETAIL: (ctx) => MealDetailScreen()
+        AppRoutes.MEAL_DETAIL: (ctx) => MealDetailScreen(),
+        AppRoutes.SETTINGS: (ctx) => SettingsScreen(),
       },
       onUnknownRoute: (settings) {
         return MaterialPageRoute(
