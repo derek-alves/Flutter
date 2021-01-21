@@ -40,19 +40,48 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Ola mundo"),
-        leading: Container(
-          child: IconButton(
-            iconSize: 30,
-            onPressed: () {},
-            icon: ClipOval(
-              child: Image.asset(
-                'assets/images/img.jpg',
-                fit: BoxFit.cover,
+        title: Text(
+          "Ola mundo",
+          textAlign: TextAlign.start,
+        ),
+        leading: Builder(
+          builder: (BuildContext context) {
+            return Container(
+              margin: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30),
+                image: const DecorationImage(
+                  image: AssetImage('assets/images/img.jpg'),
+                  fit: BoxFit.cover,
+                ),
               ),
+              child: ClipOval(
+                child: FlatButton(
+                  onPressed: () {
+                    Scaffold.of(context).openDrawer();
+                  },
+                  child: null,
+                ),
+              ),
+            );
+          },
+        ),
+        actions: [
+          GestureDetector(
+            onTap: () {},
+            child: Icon(
+              Icons.search_outlined,
+              size: 30,
             ),
           ),
-        ),
+          GestureDetector(
+            onTap: () {},
+            child: Icon(
+              Icons.message_outlined,
+              size: 30,
+            ),
+          ),
+        ],
       ),
 
       drawer: Drawer(
