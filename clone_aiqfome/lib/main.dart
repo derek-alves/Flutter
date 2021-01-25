@@ -40,31 +40,45 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          "Ola mundo",
-          textAlign: TextAlign.start,
-        ),
+        leadingWidth: 60,
+        titleSpacing: 0,
         leading: Builder(
           builder: (BuildContext context) {
-            return Container(
-              margin: EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
-                image: const DecorationImage(
-                  image: AssetImage('assets/images/img.jpg'),
-                  fit: BoxFit.cover,
+            return Align(
+              alignment: Alignment.centerRight,
+              child: Container(
+                width: 40,
+                margin: EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(40),
+                  image: const DecorationImage(
+                    image: AssetImage(
+                      'assets/images/img.jpg',
+                    ),
+                    fit: BoxFit.cover,
+                  ),
                 ),
-              ),
-              child: ClipOval(
-                child: FlatButton(
-                  onPressed: () {
-                    Scaffold.of(context).openDrawer();
-                  },
-                  child: null,
+                child: ClipOval(
+                  child: FlatButton(
+                    onPressed: () {
+                      Scaffold.of(context).openDrawer();
+                    },
+                    child: null,
+                  ),
                 ),
               ),
             );
           },
+        ),
+        title: Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            "Cruzeiro",
+            textAlign: TextAlign.start,
+            style: TextStyle(
+              color: Theme.of(context).accentColor,
+            ),
+          ),
         ),
         actions: [
           GestureDetector(
@@ -72,6 +86,7 @@ class MyHomePage extends StatelessWidget {
             child: Icon(
               Icons.search_outlined,
               size: 30,
+              color: Theme.of(context).accentColor,
             ),
           ),
           GestureDetector(
@@ -79,6 +94,7 @@ class MyHomePage extends StatelessWidget {
             child: Icon(
               Icons.message_outlined,
               size: 30,
+              color: Theme.of(context).accentColor,
             ),
           ),
         ],
