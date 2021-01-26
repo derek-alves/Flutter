@@ -1,3 +1,4 @@
+import 'package:clone_aiqfome/components/drawer.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -40,8 +41,8 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leadingWidth: 60,
-        titleSpacing: 0,
+        leadingWidth: 65,
+        titleSpacing: 5,
         leading: Builder(
           builder: (BuildContext context) {
             return Align(
@@ -89,26 +90,21 @@ class MyHomePage extends StatelessWidget {
               color: Theme.of(context).accentColor,
             ),
           ),
-          GestureDetector(
-            onTap: () {},
-            child: Icon(
-              Icons.message_outlined,
-              size: 30,
-              color: Theme.of(context).accentColor,
+          Container(
+            padding: EdgeInsets.all(10),
+            child: GestureDetector(
+              onTap: () {},
+              child: Icon(
+                Icons.message_outlined,
+                size: 30,
+                color: Theme.of(context).accentColor,
+              ),
             ),
-          ),
+          )
         ],
       ),
 
-      drawer: Drawer(
-        child: ListView(
-          children: [
-            Container(
-              child: DrawerHeader(child: Text('Testando')),
-            ),
-          ],
-        ),
-      ),
+      drawer: MainDrawer(),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
