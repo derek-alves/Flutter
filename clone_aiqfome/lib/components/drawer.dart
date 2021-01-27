@@ -70,6 +70,76 @@ class MainDrawer extends StatelessWidget {
               ),
             ),
           ),
+          ListTile(
+            leading: Icon(
+              Icons.access_alarm_outlined,
+              color: Theme.of(context).accentColor,
+            ),
+            title: Text('indique um amigo'),
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.access_alarm_outlined,
+              color: Theme.of(context).accentColor,
+            ),
+            title: Text('pedidos'),
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.access_alarm_outlined,
+              color: Theme.of(context).accentColor,
+            ),
+            title: Text('cupons'),
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.access_alarm_outlined,
+              color: Theme.of(context).accentColor,
+            ),
+            title: Text('pombo-correio'),
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.access_alarm_outlined,
+              color: Theme.of(context).accentColor,
+            ),
+            title: Text('minhas infos'),
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.access_alarm_outlined,
+              color: Theme.of(context).accentColor,
+            ),
+            title: Text('pagamento'),
+            trailing: Container(
+              alignment: Alignment.center,
+              width: 25,
+              height: 25,
+              child: Text(
+                '0',
+                style: TextStyle(color: Colors.white),
+              ),
+              decoration: BoxDecoration(
+                color: Colors.green,
+                borderRadius: BorderRadius.circular(40),
+              ),
+            ),
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.access_alarm_outlined,
+              color: Theme.of(context).accentColor,
+            ),
+            title: Text('consigurações'),
+          ),
+          Expanded(
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Row(
+                children: [Text("Ola mundo")],
+              ),
+            ),
+          )
         ],
       ),
     );

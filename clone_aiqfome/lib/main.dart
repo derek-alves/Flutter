@@ -23,6 +23,7 @@ class MyApp extends StatelessWidget {
         900: const Color(0xFFFFFFFF),
       },
     );
+
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
