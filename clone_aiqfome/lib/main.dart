@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: white,
         // canvasColor: Colors.grey[100],
-        accentColor: Colors.purple,
+        accentColor: Colors.purple[700],
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: MyHomePage(),
