@@ -26,13 +26,34 @@ class MainDrawer extends StatelessWidget {
                         fit: BoxFit.cover,
                       ),
                     ),
-                    child: ClipOval(
-                      child: FlatButton(
-                        onPressed: () {
-                          Scaffold.of(context).openDrawer();
-                        },
-                        child: null,
-                      ),
+                    child: Stack(
+                      children: [
+                        ClipOval(
+                          child: FlatButton(
+                            onPressed: () {
+                              Scaffold.of(context).openDrawer();
+                            },
+                            child: null,
+                          ),
+                        ),
+                        Positioned(
+                          top: 60,
+                          left: 60,
+                          child: Container(
+                            width: 25,
+                            height: 25,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(40),
+                              color: Colors.green,
+                            ),
+                            child: Icon(
+                              Icons.check,
+                              color: Colors.white,
+                              size: 18,
+                            ),
+                          ),
+                        )
+                      ],
                     ),
                   ),
                   Container(
