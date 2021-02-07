@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
 
-=======
->>>>>>> efdda088719da20bec8a45dadc0fcc0a02341f22
-import '../models/product.dart';
+import '../provider/product.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
   @override
@@ -14,10 +11,6 @@ class ProductDetailsScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(product.title),
       ),
-<<<<<<< HEAD
-=======
-      
->>>>>>> efdda088719da20bec8a45dadc0fcc0a02341f22
     );
   }
 }
