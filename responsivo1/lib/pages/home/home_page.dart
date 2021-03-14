@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:resposivo1/pages/home/widgets/app_bar/mobile_app_bar.dart';
 import 'package:resposivo1/pages/home/widgets/app_bar/web_app_bar.dart';
+import 'package:resposivo1/pages/home/widgets/sections/top_section.dart';
 import 'package:resposivo1/utils/breakPoints.dart';
 
 class HomePage extends StatelessWidget {
@@ -21,12 +22,12 @@ class HomePage extends StatelessWidget {
         body: Align(
           alignment: Alignment.topCenter,
           child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 1400),
-            child: Container(
-              height: 1000,
-              color: Colors.red,
-            ),
-          ),
+              constraints: BoxConstraints(maxWidth: 1400),
+              child: ListView(
+                children: [
+                  TopSection(),
+                ],
+              )),
         ),
       );
     });
