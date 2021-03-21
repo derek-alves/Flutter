@@ -95,7 +95,7 @@ class AdvantagesSection extends StatelessWidget {
             SizedBox(width: 6),
             Expanded(
               child: buildVerticalAdvantage(
-                  "Estudo garantido", "Responsividade na pratica"),
+                  "Estudo Verdadeiro", "Responsividade na pratica"),
             ),
             SizedBox(width: 6),
             Expanded(
