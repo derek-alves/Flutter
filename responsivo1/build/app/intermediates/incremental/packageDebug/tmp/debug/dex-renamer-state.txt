@@ -1,0 +1,4 @@
+#Tue Mar 09 00:52:24 BRT 2021
+base.0=/home/derek-alves/Documentos/flutter/responsivo1/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
