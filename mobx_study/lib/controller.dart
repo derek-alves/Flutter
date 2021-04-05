@@ -1,21 +1,25 @@
 import 'package:mobx/mobx.dart';
+part 'controller.g.dart';
 
-class Controller {
-  var _counter = Observable(0);
+class Controller = ControllerBase with _$Controller;
 
-  int get counter => _counter.value;
-  set counter(int newValue) => _counter.value = newValue;
+abstract class ControllerBase with Store {
+  @observable
+  String nome = '';
 
-  Action increment;
+  @observable
+  String sobrenome = '';
 
-  Controller() {
-    increment = Action(_increment);
+  @computed
+  String get nomeCompleto => "$nome $sobrenome";
 
-    autorun((_) {
-      print(counter);
-    });
+  @action
+  mudarNome(String newName) {
+    nome = newName;
   }
-  _increment() {
-    counter++;
+
+  @action
+  mudarSobrenome(String newName) {
+    sobrenome = newName;
   }
 }
