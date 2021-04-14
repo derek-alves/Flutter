@@ -76,7 +76,7 @@ class LandingPage extends StatelessWidget {
                       "Descubra como se proteger contra a",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          fontSize: constraints.maxHeight * 0.03,
+                          fontSize: constraints.maxHeight * 0.02,
                           color: Colors.white,
                           fontWeight: FontWeight.w500),
                     ),

@@ -5,12 +5,6 @@ part 'login_store.g.dart';
 class LoginStore = _LoginStore with _$LoginStore;
 
 abstract class _LoginStore with Store {
-  _LoginStore() {
-    autorun((_) {
-      print(email);
-    });
-  }
-
   @observable
   bool passwordVisible = false;
 
@@ -19,6 +13,12 @@ abstract class _LoginStore with Store {
 
   @observable
   String password = "";
+
+  @observable
+  bool loading = false;
+
+  @observable
+  bool loggedIn = false;
 
   @action
   void setEmail(String value) => email = value;
@@ -38,5 +38,16 @@ abstract class _LoginStore with Store {
   bool get isPasswordValid => password.length > 6;
 
   @computed
-  bool get isFormValid => isEmailValid && isPasswordValid;
+  get loginPressed =>
+      (isEmailValid && isPasswordValid && !loading) ? login : null;
+
+  @action
+  Future<void> login() async {
+    loading = true;
+
+    await Future.delayed(Duration(seconds: 2));
+
+    loading = false;
+    loggedIn = true;
+  }
 }
