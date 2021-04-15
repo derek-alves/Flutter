@@ -1,3 +1,4 @@
+import 'package:covidados/src/utils/app_routes.dart';
 import 'package:flutter/material.dart';
 
 class LandingPage extends StatelessWidget {
@@ -71,12 +72,12 @@ class LandingPage extends StatelessWidget {
               ),
               Column(
                 children: [
-                  Container(
+                  FittedBox(
                     child: Text(
                       "Descubra como se proteger contra a",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          fontSize: constraints.maxHeight * 0.02,
+                          fontSize: constraints.maxHeight * 0.03,
                           color: Colors.white,
                           fontWeight: FontWeight.w500),
                     ),
@@ -90,7 +91,11 @@ class LandingPage extends StatelessWidget {
                   ),
                   SizedBox(height: constraints.maxHeight * 0.03),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(
+                        AppRoutes.HOME,
+                      );
+                    },
                     child: Text(
                       "Começar Agora",
                       style: TextStyle(
@@ -108,7 +113,7 @@ class LandingPage extends StatelessWidget {
                 ],
               ),
               SizedBox(
-                height: constraints.maxHeight * 0.09,
+                height: 30,
               ),
             ],
           ),
