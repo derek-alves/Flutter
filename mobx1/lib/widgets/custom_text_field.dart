@@ -31,7 +31,7 @@ class CustomTextField extends StatelessWidget {
       ),
       padding: prefix != null ? null : const EdgeInsets.only(left: 16),
       child: TextField(
-        // controller: controller,
+        controller: controller,
         obscureText: obscure,
         keyboardType: textInputType,
         onChanged: onChanged,
