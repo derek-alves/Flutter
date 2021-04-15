@@ -8,6 +8,7 @@ class HomePage extends StatelessWidget {
       backgroundColor: Theme.of(context).accentColor,
       body: LayoutBuilder(
         builder: (context, constraint) {
+          var maxHeight = constraint.maxHeight;
           return SafeArea(
             child: Stack(
               children: <Widget>[
@@ -18,18 +19,18 @@ class HomePage extends StatelessWidget {
                       "Olá!",
                       style: TextStyle(
                           color: Colors.white,
-                          fontSize: 32,
+                          fontSize: maxHeight * 0.048,
                           fontWeight: FontWeight.w600),
                     ),
                     Text(
                       "Seja Bem-Vindo(a)",
                       style: TextStyle(
                           color: Colors.white,
-                          fontSize: 24,
+                          fontSize: maxHeight * 0.035,
                           fontWeight: FontWeight.w400),
                     ),
                     SizedBox(
-                      height: 14,
+                      height: 10,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -45,25 +46,27 @@ class HomePage extends StatelessWidget {
                             children: [
                               Text(
                                 "CONFIRMADOS",
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: maxHeight * 0.019),
                               ),
                               Text(
                                 "007.256",
                                 style: TextStyle(
                                     letterSpacing: 1,
-                                    fontSize: 25,
+                                    fontSize: maxHeight * 0.034,
                                     color: Colors.white,
                                     fontWeight: FontWeight.w500),
                               )
                             ],
                           ),
                         ),
-                        SizedBox(width: 10),
+                        SizedBox(width: 8),
                         Image.network(
                           "https://www.countryflags.io/br/flat/64.png",
                           width: 40,
                         ),
-                        SizedBox(width: 10),
+                        SizedBox(width: 8),
                         Container(
                           padding:
                               EdgeInsets.symmetric(horizontal: 6, vertical: 3),
@@ -75,13 +78,15 @@ class HomePage extends StatelessWidget {
                             children: [
                               Text(
                                 "CURADOS",
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: maxHeight * 0.019),
                               ),
                               Text(
                                 "007.256",
                                 style: TextStyle(
                                     letterSpacing: 1,
-                                    fontSize: 25,
+                                    fontSize: maxHeight * 0.034,
                                     color: Colors.white,
                                     fontWeight: FontWeight.w500),
                               )
@@ -104,12 +109,12 @@ class HomePage extends StatelessWidget {
                               topRight: Radius.circular(30)),
                         ),
                         width: MediaQuery.of(context).size.width,
-                        height: constraint.maxHeight * 0.62,
+                        height: maxHeight * 0.62,
                         child: GridView.count(
                           primary: false,
-                          padding: const EdgeInsets.fromLTRB(50, 90, 50, 0),
-                          crossAxisSpacing: 30,
-                          mainAxisSpacing: 30,
+                          padding: const EdgeInsets.fromLTRB(50, 70, 50, 0),
+                          crossAxisSpacing: maxHeight * 0.05,
+                          mainAxisSpacing: maxHeight * 0.03,
                           crossAxisCount: 2,
                           children: <Widget>[
                             ButtonHome(
@@ -137,11 +142,11 @@ class HomePage extends StatelessWidget {
                   ],
                 ),
                 Positioned(
-                    top: 188,
+                    top: maxHeight * 0.25,
                     left: 50,
                     right: 50,
                     child: Container(
-                      height: 120,
+                      height: maxHeight * 0.17,
                       decoration: BoxDecoration(color: Colors.grey),
                     ))
               ],
