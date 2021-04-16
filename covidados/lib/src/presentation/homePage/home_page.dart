@@ -12,93 +12,96 @@ class HomePage extends StatelessWidget {
           return SafeArea(
             child: Stack(
               children: <Widget>[
-                Column(
-                  children: [
-                    SizedBox(height: 10),
-                    Text(
-                      "Olá!",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: maxHeight * 0.048,
-                          fontWeight: FontWeight.w600),
-                    ),
-                    Text(
-                      "Seja Bem-Vindo(a)",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: maxHeight * 0.035,
-                          fontWeight: FontWeight.w400),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 6, vertical: 3),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(4)),
-                            border: Border.all(color: Colors.white, width: 2),
+                Container(
+                  height: maxHeight * 0.30,
+                  padding: EdgeInsets.only(bottom: 12, left: 15, right: 15),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        "Olá!",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: maxHeight * 0.048,
+                            fontWeight: FontWeight.w600),
+                      ),
+                      Text(
+                        "Seja Bem-Vindo(a)",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: maxHeight * 0.035,
+                            fontWeight: FontWeight.w400),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 6, vertical: 3),
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4)),
+                              border: Border.all(color: Colors.white, width: 2),
+                            ),
+                            child: Column(
+                              children: [
+                                Text(
+                                  "CONFIRMADOS",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: constraint.maxWidth * 0.035),
+                                ),
+                                Text(
+                                  "007.256",
+                                  style: TextStyle(
+                                      letterSpacing: 1,
+                                      fontSize: constraint.maxWidth * 0.06,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w500),
+                                )
+                              ],
+                            ),
                           ),
-                          child: Column(
-                            children: [
-                              Text(
-                                "CONFIRMADOS",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: maxHeight * 0.019),
-                              ),
-                              Text(
-                                "007.256",
-                                style: TextStyle(
-                                    letterSpacing: 1,
-                                    fontSize: maxHeight * 0.034,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w500),
-                              )
-                            ],
+                          Image.network(
+                            "https://www.countryflags.io/br/flat/64.png",
+                            width: constraint.maxWidth * 0.12,
                           ),
-                        ),
-                        SizedBox(width: 8),
-                        Image.network(
-                          "https://www.countryflags.io/br/flat/64.png",
-                          width: 40,
-                        ),
-                        SizedBox(width: 8),
-                        Container(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 6, vertical: 3),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(4)),
-                            border: Border.all(color: Colors.white, width: 2),
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 6, vertical: 3),
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4)),
+                              border: Border.all(color: Colors.white, width: 2),
+                            ),
+                            child: Column(
+                              children: [
+                                Text(
+                                  "CURADOS",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: constraint.maxWidth * 0.035),
+                                ),
+                                Text(
+                                  "007.256",
+                                  style: TextStyle(
+                                      letterSpacing: 1,
+                                      fontSize: constraint.maxWidth * 0.06,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w500),
+                                )
+                              ],
+                            ),
                           ),
-                          child: Column(
-                            children: [
-                              Text(
-                                "CURADOS",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: maxHeight * 0.019),
-                              ),
-                              Text(
-                                "007.256",
-                                style: TextStyle(
-                                    letterSpacing: 1,
-                                    fontSize: maxHeight * 0.034,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w500),
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
                 Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
                     Container(
@@ -109,10 +112,10 @@ class HomePage extends StatelessWidget {
                               topRight: Radius.circular(30)),
                         ),
                         width: MediaQuery.of(context).size.width,
-                        height: maxHeight * 0.62,
+                        height: maxHeight * 0.65,
                         child: GridView.count(
                           primary: false,
-                          padding: const EdgeInsets.fromLTRB(50, 70, 50, 0),
+                          padding: const EdgeInsets.fromLTRB(50, 40, 50, 0),
                           crossAxisSpacing: maxHeight * 0.05,
                           mainAxisSpacing: maxHeight * 0.03,
                           crossAxisCount: 2,
@@ -141,18 +144,24 @@ class HomePage extends StatelessWidget {
                         )),
                   ],
                 ),
-                Positioned(
-                    top: maxHeight * 0.25,
-                    left: 50,
-                    right: 50,
-                    child: Container(
-                      height: maxHeight * 0.17,
-                      decoration: BoxDecoration(color: Colors.grey),
-                    ))
               ],
             ),
           );
         },
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: Theme.of(context).accentColor,
+        iconSize: 28,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: "Home",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: "Dados",
+          ),
+        ],
       ),
     );
   }
