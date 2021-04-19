@@ -1,5 +1,6 @@
 import 'package:covidados/src/presentation/homePage/home_page.dart';
 import 'package:covidados/src/presentation/landingPage/landing_page.dart';
+import 'package:covidados/src/presentation/symptomsPage/symptoms_page.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 
@@ -25,9 +26,10 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         accentColor: Color(0xff3AD39C),
       ),
-      home: LandingPage(),
+      home: SymptomsPage(),
       routes: {
         AppRoutes.HOME: (ctx) => HomePage(),
+        AppRoutes.SYMPTOMS_PAGE: (ctx) => SymptomsPage(),
       },
     );
   }

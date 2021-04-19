@@ -1,4 +1,5 @@
 import 'package:covidados/src/presentation/homePage/components/button_home.dart';
+import 'package:covidados/src/utils/app_routes.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -16,20 +17,20 @@ class HomePage extends StatelessWidget {
                   height: maxHeight * 0.30,
                   padding: EdgeInsets.only(bottom: 12, left: 15, right: 15),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
                         "Olá!",
                         style: TextStyle(
                             color: Colors.white,
-                            fontSize: maxHeight * 0.048,
+                            fontSize: maxHeight * 0.04,
                             fontWeight: FontWeight.w600),
                       ),
                       Text(
                         "Seja Bem-Vindo(a)",
                         style: TextStyle(
                             color: Colors.white,
-                            fontSize: maxHeight * 0.035,
+                            fontSize: maxHeight * 0.03,
                             fontWeight: FontWeight.w400),
                       ),
                       SizedBox(
@@ -52,13 +53,13 @@ class HomePage extends StatelessWidget {
                                   "CONFIRMADOS",
                                   style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: constraint.maxWidth * 0.035),
+                                      fontSize: constraint.maxWidth * 0.03),
                                 ),
                                 Text(
                                   "007.256",
                                   style: TextStyle(
                                       letterSpacing: 1,
-                                      fontSize: constraint.maxWidth * 0.06,
+                                      fontSize: constraint.maxWidth * 0.05,
                                       color: Colors.white,
                                       fontWeight: FontWeight.w500),
                                 )
@@ -83,13 +84,13 @@ class HomePage extends StatelessWidget {
                                   "CURADOS",
                                   style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: constraint.maxWidth * 0.035),
+                                      fontSize: constraint.maxWidth * 0.03),
                                 ),
                                 Text(
                                   "007.256",
                                   style: TextStyle(
                                       letterSpacing: 1,
-                                      fontSize: constraint.maxWidth * 0.06,
+                                      fontSize: constraint.maxWidth * 0.05,
                                       color: Colors.white,
                                       fontWeight: FontWeight.w500),
                                 )
@@ -105,45 +106,73 @@ class HomePage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
                     Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(30),
-                              topRight: Radius.circular(30)),
-                        ),
-                        width: MediaQuery.of(context).size.width,
-                        height: maxHeight * 0.65,
-                        child: GridView.count(
-                          primary: false,
-                          padding: const EdgeInsets.fromLTRB(50, 40, 50, 0),
-                          crossAxisSpacing: maxHeight * 0.05,
-                          mainAxisSpacing: maxHeight * 0.03,
-                          crossAxisCount: 2,
-                          children: <Widget>[
-                            ButtonHome(
-                              color: 0xff24A577,
-                              image: "assets/b-1.png",
-                              title: "Contágio",
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(30),
+                            topRight: Radius.circular(30)),
+                      ),
+                      width: MediaQuery.of(context).size.width,
+                      height: maxHeight * 0.65,
+                      child: Expanded(
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: constraint.maxHeight * 0.12,
                             ),
-                            ButtonHome(
-                              color: 0xff392045,
-                              image: "assets/b-2.png",
-                              title: "Prevenção",
-                            ),
-                            ButtonHome(
-                              color: 0xffCF1845,
-                              image: "assets/b-3.png",
-                              title: "Vírus",
-                            ),
-                            ButtonHome(
-                              color: 0xffF79339,
-                              image: "assets/b-4.png",
-                              title: "Sintomas",
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    ButtonHome(
+                                      color: 0xff24A577,
+                                      image: "assets/b-1.png",
+                                      title: "Contágio",
+                                    ),
+                                    ButtonHome(
+                                      color: 0xff392045,
+                                      image: "assets/b-2.png",
+                                      title: "Prevenção",
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: constraint.maxHeight * 0.05),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    ButtonHome(
+                                      color: 0xffCF1845,
+                                      image: "assets/b-3.png",
+                                      title: "Vírus",
+                                    ),
+                                    ButtonHome(
+                                      color: 0xffF79339,
+                                      image: "assets/b-4.png",
+                                      title: "Sintomas",
+                                    ),
+                                  ],
+                                )
+                              ],
                             ),
                           ],
-                        )),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
+                Positioned(
+                  top: constraint.maxHeight * 0.23,
+                  left: constraint.maxWidth * 0.1,
+                  child: Container(
+                    height: constraint.maxHeight * 0.15,
+                    width: constraint.maxWidth * 0.8,
+                    color: Colors.grey,
+                  ),
+                )
               ],
             ),
           );
