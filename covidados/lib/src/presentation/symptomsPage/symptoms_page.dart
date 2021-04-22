@@ -25,16 +25,61 @@ class SymptomsPage extends StatelessWidget {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Container(
-                      height: constraints.maxHeight * 0.85,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(30),
-                          topRight: Radius.circular(30),
+                    Flexible(
+                      child: Container(
+                        width: double.infinity,
+                        height: constraints.maxHeight * 0.86,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(30),
+                            topRight: Radius.circular(30),
+                          ),
+                        ),
+                        child: Expanded(
+                          child: Column(
+                            children: [
+                              Container(
+                                width: constraints.maxWidth * 0.8,
+                                child: Text.rich(
+                                  TextSpan(
+                                    text: "Em média, os sintomas aparecem ",
+                                    children: [
+                                      TextSpan(
+                                        text: "após 5 ou 6 dias ",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      TextSpan(
+                                        text:
+                                            "depois de ser  infectados com o vírus. Porém, isso pode levar até ",
+                                        children: [
+                                          TextSpan(
+                                              text: "14 dias.",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold))
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(
+                                      fontSize: constraints.maxWidth * 0.053,
+                                      fontWeight: FontWeight.w400),
+                                ),
+                              ),
+                              Image.asset(
+                                "assets/img.png",
+                                fit: BoxFit.scaleDown,
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),
+                    Row(
+                      children: [],
+                    )
                   ],
                 )
               ],
