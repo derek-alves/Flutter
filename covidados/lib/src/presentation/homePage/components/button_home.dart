@@ -1,3 +1,4 @@
+import 'package:covidados/src/utils/app_routes.dart';
 import 'package:flutter/material.dart';
 
 class ButtonHome extends StatelessWidget {
@@ -24,7 +25,11 @@ class ButtonHome extends StatelessWidget {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           ),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).pushNamed(
+              AppRoutes.SYMPTOMS_PAGE,
+            );
+          },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         accentColor: Color(0xff3AD39C),
       ),
-      home: SymptomsPage(),
+      home: LandingPage(),
       routes: {
         AppRoutes.HOME: (ctx) => HomePage(),
         AppRoutes.SYMPTOMS_PAGE: (ctx) => SymptomsPage(),

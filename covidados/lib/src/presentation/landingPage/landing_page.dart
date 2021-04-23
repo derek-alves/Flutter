@@ -122,8 +122,3 @@ class LandingPage extends StatelessWidget {
     );
   }
 }
-// ButtonStyle(
-//                 backgroundColor: Cor,
-//                 shape: MaterialStateProperty.all(RoundedRectangleBorder(
-//                     borderRadius: BorderRadius.circular(18))),
-//               ),

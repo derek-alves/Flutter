@@ -1,5 +1,5 @@
 import 'package:covidados/src/presentation/homePage/components/button_home.dart';
-import 'package:covidados/src/utils/app_routes.dart';
+import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -66,10 +66,12 @@ class HomePage extends StatelessWidget {
                               ],
                             ),
                           ),
-                          Image.network(
-                            "https://www.countryflags.io/br/flat/64.png",
-                            width: constraint.maxWidth * 0.12,
-                          ),
+                          // Image.network(
+                          //   "https://www.countryflags.io/br/flat/64.png",
+                          //   width: constraint.maxWidth * 0.12,
+                          // ),
+                          Flag('BR',
+                              height: 50, width: constraint.maxWidth * 0.12),
                           Container(
                             padding: EdgeInsets.symmetric(
                                 horizontal: 6, vertical: 3),

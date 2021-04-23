@@ -12,7 +12,7 @@ class ButtonSympt extends StatelessWidget {
 
     return Container(
       width: widthScreen * 0.27,
-      height: heightScreen * 0.14,
+      height: heightScreen * 0.15,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -25,7 +25,7 @@ class ButtonSympt extends StatelessWidget {
               shape: BoxShape.circle,
             ),
             child: IconButton(
-              iconSize: widthScreen * 0.12,
+              iconSize: heightScreen * 0.05,
               icon: Image.asset(img),
               onPressed: () {},
             ),
@@ -33,7 +33,7 @@ class ButtonSympt extends StatelessWidget {
           Text(
             title,
             style: TextStyle(
-                fontWeight: FontWeight.bold, fontSize: widthScreen * 0.04),
+                fontWeight: FontWeight.bold, fontSize: widthScreen * 0.038),
             textAlign: TextAlign.center,
           ),
         ],

@@ -43,7 +43,8 @@ class SymptomsPage extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Container(
-                                width: constraints.maxWidth * 0.8,
+                                padding: EdgeInsets.only(top: 20),
+                                width: constraints.maxWidth * 0.66,
                                 child: Text.rich(
                                   TextSpan(
                                     text: "Em média, os sintomas aparecem ",
@@ -65,9 +66,9 @@ class SymptomsPage extends StatelessWidget {
                                       ),
                                     ],
                                   ),
-                                  textAlign: TextAlign.start,
+                                  textAlign: TextAlign.center,
                                   style: TextStyle(
-                                      fontSize: constraints.maxWidth * 0.053,
+                                      fontSize: constraints.maxHeight * 0.027,
                                       fontWeight: FontWeight.w400),
                                 ),
                               ),
