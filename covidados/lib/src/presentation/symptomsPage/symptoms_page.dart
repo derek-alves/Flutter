@@ -1,3 +1,4 @@
+import 'package:covidados/src/presentation/symptomsPage/widgets/button_sympt_widget.dart';
 import 'package:flutter/material.dart';
 
 class SymptomsPage extends StatelessWidget {
@@ -12,7 +13,7 @@ class SymptomsPage extends StatelessWidget {
               children: [
                 Container(
                   alignment: Alignment.center,
-                  height: constraints.maxHeight * 0.15,
+                  height: constraints.maxHeight * 0.1,
                   width: double.infinity,
                   child: Text(
                     "SINTOMAS",
@@ -28,7 +29,7 @@ class SymptomsPage extends StatelessWidget {
                     Flexible(
                       child: Container(
                         width: double.infinity,
-                        height: constraints.maxHeight * 0.86,
+                        height: constraints.maxHeight * 0.9,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.only(
@@ -38,6 +39,8 @@ class SymptomsPage extends StatelessWidget {
                         ),
                         child: Expanded(
                           child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Container(
                                 width: constraints.maxWidth * 0.8,
@@ -68,18 +71,62 @@ class SymptomsPage extends StatelessWidget {
                                       fontWeight: FontWeight.w400),
                                 ),
                               ),
-                              Image.asset(
-                                "assets/img.png",
-                                fit: BoxFit.scaleDown,
-                              )
+                              Expanded(
+                                child: AspectRatio(
+                                  aspectRatio: 1.5,
+                                  child: Image.asset(
+                                    "assets/img.png",
+                                    fit: BoxFit.scaleDown,
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        ButtonSympt(
+                                          img: "assets/febre.png",
+                                          title: "Febre",
+                                        ),
+                                        ButtonSympt(
+                                          img: "assets/tosse.png",
+                                          title: "Tosse seca",
+                                        ),
+                                        ButtonSympt(
+                                          img: "assets/diarréia.png",
+                                          title: "Diarréia",
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        ButtonSympt(
+                                          img: "assets/garganta.png",
+                                          title: "Dor de garganta",
+                                        ),
+                                        ButtonSympt(
+                                          img: "assets/respiratorio.png",
+                                          title: "Problemas respiratórios",
+                                        ),
+                                        ButtonSympt(
+                                          img: "assets/nasal.png",
+                                          title: "Congestão nasal",
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                         ),
                       ),
                     ),
-                    Row(
-                      children: [],
-                    )
                   ],
                 )
               ],
