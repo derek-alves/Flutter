@@ -19,13 +19,13 @@ class LandingPage extends StatelessWidget {
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w300,
-                  fontSize: screenHeight / 28,
+                  fontSize: screenHeight / 32,
                 ),
               ),
               Text(
                 "CORONAVIRUS",
                 style: TextStyle(
-                  fontSize: screenHeight / 24,
+                  fontSize: screenHeight / 28,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -54,7 +54,7 @@ class LandingPage extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       color: Colors.white,
-                      fontSize: screenHeight / 40,
+                      fontSize: screenHeight / 42,
                       fontWeight: FontWeight.w400),
                 ),
               ),

@@ -1,0 +1,79 @@
+import 'package:equatable/equatable.dart';
+
+class BrazilDataEntity extends Equatable {
+  final String country;
+  final CoutryInfo countryInfo;
+  final int cases;
+  final int deaths;
+  final int recovered;
+  final int todayRecovered;
+  final int active;
+  final int casesPerOneMillion;
+  final int deathsPerOneMillion;
+  final int tests;
+  final int testsPerOneMillion;
+  final int population;
+  final int oneCasePerPeople;
+  final int oneDeathPerPeople;
+  final int oneTestPerPeople;
+  final double activePerOneMillion;
+  final double recoveredPerOneMillion;
+  final double criticalPerOneMillion;
+
+  BrazilDataEntity({
+    required this.country,
+    required this.countryInfo,
+    required this.cases,
+    required this.deaths,
+    required this.recovered,
+    required this.todayRecovered,
+    required this.active,
+    required this.casesPerOneMillion,
+    required this.deathsPerOneMillion,
+    required this.tests,
+    required this.testsPerOneMillion,
+    required this.population,
+    required this.oneCasePerPeople,
+    required this.oneDeathPerPeople,
+    required this.oneTestPerPeople,
+    required this.activePerOneMillion,
+    required this.recoveredPerOneMillion,
+    required this.criticalPerOneMillion,
+  });
+
+  @override
+  List<Object> get props => [
+        country,
+        countryInfo,
+        cases,
+        deaths,
+        recovered,
+        todayRecovered,
+        active,
+        casesPerOneMillion,
+        deathsPerOneMillion,
+        tests,
+        testsPerOneMillion,
+        population,
+        oneCasePerPeople,
+        oneDeathPerPeople,
+        oneTestPerPeople,
+        activePerOneMillion,
+        recoveredPerOneMillion,
+        criticalPerOneMillion,
+      ];
+}
+
+class CoutryInfo {
+  final String iso2;
+  final int lat;
+  final int long;
+  final String flag;
+
+  CoutryInfo({
+    required this.iso2,
+    required this.lat,
+    required this.long,
+    required this.flag,
+  });
+}

@@ -15,7 +15,8 @@ class HomePage extends StatelessWidget {
               children: <Widget>[
                 Container(
                   height: maxHeight * 0.30,
-                  padding: EdgeInsets.only(bottom: 12, left: 15, right: 15),
+                  padding:
+                      EdgeInsets.only(bottom: 12, left: 15, right: 15, top: 2),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -23,7 +24,7 @@ class HomePage extends StatelessWidget {
                         "Olá!",
                         style: TextStyle(
                             color: Colors.white,
-                            fontSize: maxHeight * 0.04,
+                            fontSize: maxHeight * 0.036,
                             fontWeight: FontWeight.w600),
                       ),
                       Text(
@@ -66,10 +67,6 @@ class HomePage extends StatelessWidget {
                               ],
                             ),
                           ),
-                          // Image.network(
-                          //   "https://www.countryflags.io/br/flat/64.png",
-                          //   width: constraint.maxWidth * 0.12,
-                          // ),
                           Flag('BR',
                               height: 50, width: constraint.maxWidth * 0.12),
                           Container(

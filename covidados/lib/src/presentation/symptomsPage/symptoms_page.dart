@@ -1,4 +1,5 @@
 import 'package:covidados/src/presentation/symptomsPage/widgets/button_sympt_widget.dart';
+import 'package:covidados/src/utils/app_dialogs_text.dart';
 import 'package:flutter/material.dart';
 
 class SymptomsPage extends StatelessWidget {
@@ -19,7 +20,7 @@ class SymptomsPage extends StatelessWidget {
                     "SINTOMAS",
                     style: TextStyle(
                         color: Colors.white,
-                        fontSize: constraints.maxHeight * 0.05,
+                        fontSize: constraints.maxWidth * 0.08,
                         fontWeight: FontWeight.w500),
                   ),
                 ),
@@ -44,7 +45,7 @@ class SymptomsPage extends StatelessWidget {
                             children: [
                               Container(
                                 padding: EdgeInsets.only(top: 20),
-                                width: constraints.maxWidth * 0.66,
+                                width: constraints.maxWidth * 0.8,
                                 child: Text.rich(
                                   TextSpan(
                                     text: "Em média, os sintomas aparecem ",
@@ -68,8 +69,9 @@ class SymptomsPage extends StatelessWidget {
                                   ),
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                      fontSize: constraints.maxHeight * 0.027,
+                                      fontSize: constraints.maxHeight * 0.028,
                                       fontWeight: FontWeight.w400),
+                                  maxLines: 5,
                                 ),
                               ),
                               Expanded(
@@ -77,7 +79,7 @@ class SymptomsPage extends StatelessWidget {
                                   aspectRatio: 1.5,
                                   child: Image.asset(
                                     "assets/img.png",
-                                    fit: BoxFit.scaleDown,
+                                    fit: BoxFit.contain,
                                   ),
                                 ),
                               ),
@@ -91,14 +93,17 @@ class SymptomsPage extends StatelessWidget {
                                         ButtonSympt(
                                           img: "assets/febre.png",
                                           title: "Febre",
+                                          text: DialogText.febre,
                                         ),
                                         ButtonSympt(
                                           img: "assets/tosse.png",
                                           title: "Tosse seca",
+                                          text: DialogText.tosse,
                                         ),
                                         ButtonSympt(
                                           img: "assets/diarréia.png",
                                           title: "Diarréia",
+                                          text: DialogText.diarreia,
                                         ),
                                       ],
                                     ),
@@ -109,14 +114,17 @@ class SymptomsPage extends StatelessWidget {
                                         ButtonSympt(
                                           img: "assets/garganta.png",
                                           title: "Dor de garganta",
+                                          text: DialogText.garganta,
                                         ),
                                         ButtonSympt(
                                           img: "assets/respiratorio.png",
                                           title: "Problemas respiratórios",
+                                          text: DialogText.respiratorios,
                                         ),
                                         ButtonSympt(
                                           img: "assets/nasal.png",
                                           title: "Congestão nasal",
+                                          text: DialogText.nasal,
                                         )
                                       ],
                                     ),
