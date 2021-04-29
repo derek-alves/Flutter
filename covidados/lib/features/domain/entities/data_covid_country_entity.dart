@@ -1,12 +1,11 @@
 import 'package:equatable/equatable.dart';
 
-class BrazilDataEntity extends Equatable {
+class CountryDataEntity extends Equatable {
   final String country;
   final CoutryInfo countryInfo;
   final int cases;
   final int deaths;
   final int recovered;
-  final int todayRecovered;
   final int active;
   final int casesPerOneMillion;
   final int deathsPerOneMillion;
@@ -20,13 +19,12 @@ class BrazilDataEntity extends Equatable {
   final double recoveredPerOneMillion;
   final double criticalPerOneMillion;
 
-  BrazilDataEntity({
+  CountryDataEntity({
     required this.country,
     required this.countryInfo,
     required this.cases,
     required this.deaths,
     required this.recovered,
-    required this.todayRecovered,
     required this.active,
     required this.casesPerOneMillion,
     required this.deathsPerOneMillion,
@@ -48,7 +46,6 @@ class BrazilDataEntity extends Equatable {
         cases,
         deaths,
         recovered,
-        todayRecovered,
         active,
         casesPerOneMillion,
         deathsPerOneMillion,

@@ -1,4 +1,4 @@
-import 'package:covidados/src/utils/app_routes.dart';
+import 'package:covidados/utils/app_routes.dart';
 import 'package:flutter/material.dart';
 
 class LandingPage extends StatelessWidget {

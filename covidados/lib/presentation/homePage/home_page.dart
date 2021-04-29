@@ -1,6 +1,7 @@
-import 'package:covidados/src/presentation/homePage/components/button_home.dart';
 import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
+
+import 'components/button_home.dart';
 
 class HomePage extends StatelessWidget {
   @override
