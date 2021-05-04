@@ -2,7 +2,7 @@ import 'package:covidados/features/domain/entities/data_covid_country_entity.dar
 import 'package:covidados/usecase/errors/serverFailure.dart';
 import 'package:dartz/dartz.dart';
 
-abstract class IDataCovidCountryRepository {
+abstract class IDataCovidCountrtyDatasource {
   Future<Either<ServerFailure, CoutryCovidDataEntity>>
       getDataCovidCountryFromName(String coutryName);
 }

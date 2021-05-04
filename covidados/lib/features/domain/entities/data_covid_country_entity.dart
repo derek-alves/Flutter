@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-class CountryDataEntity extends Equatable {
+class CoutryCovidDataEntity extends Equatable {
   final String country;
   final CoutryInfo countryInfo;
   final int cases;
@@ -19,7 +19,7 @@ class CountryDataEntity extends Equatable {
   final double recoveredPerOneMillion;
   final double criticalPerOneMillion;
 
-  CountryDataEntity({
+  CoutryCovidDataEntity({
     required this.country,
     required this.countryInfo,
     required this.cases,

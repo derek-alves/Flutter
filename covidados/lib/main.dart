@@ -1,10 +1,10 @@
-import 'package:covidados/presentation/homePage/home_page.dart';
-import 'package:covidados/presentation/landingPage/landing_page.dart';
-import 'package:covidados/presentation/symptomsPage/symptoms_page.dart';
-
 import 'package:covidados/utils/app_routes.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
+
+import 'features/presenter/homePage/home_page.dart';
+import 'features/presenter/landingPage/landing_page.dart';
+import 'features/presenter/symptomsPage/symptoms_page.dart';
 
 void main() {
   runApp(

@@ -1,6 +1,7 @@
 import 'package:covidados/features/domain/entities/data_covid_country_entity.dart';
 import 'package:covidados/features/domain/repositories/data_covid_country_repository.dart';
 import 'package:covidados/features/domain/usecases/get_data_covid_country_usecase.dart';
+import 'package:covidados/usecase/errors/serverFailure.dart';
 import 'package:covidados/usecase/usecase.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -13,7 +14,7 @@ void main() {
   late GetDataCovidCoutryUsecase usecase;
   late IDataCovidCountryRepository repository;
 
-  final tDataCovidCountry = CountryDataEntity(
+  final tDataCovidCountry = CoutryCovidDataEntity(
     active: 1033750,
     cases: 14523807,
     countryInfo: CoutryInfo(
@@ -37,18 +38,30 @@ void main() {
     testsPerOneMillion: 203637,
   );
 
-  final tNoParams = NoParams();
+  final coutryName = "Brazil";
 
   setUp(() {
     repository = MockDataCovidCoutryRepository();
     usecase = GetDataCovidCoutryUsecase(repository);
   });
 
-  test("should get covid data entity from the repository", () {
-    when(() => repository.getDataCovidCountryFromName())
-        .thenAnswer((_) async => Right(tDataCovidCountry));
+  test("should get covid data entity from the repository", () async {
+    when(() => repository.getDataCovidCountryFromName(coutryName)).thenAnswer(
+        (_) async =>
+            Right<ServerFailure, CoutryCovidDataEntity>(tDataCovidCountry));
 
-    final result = usecase(tNoParams);
+    final result = await usecase(coutryName);
     expect(result, Right(tDataCovidCountry));
+    verify(() => repository.getDataCovidCountryFromName(coutryName));
+  });
+
+  test("should get covid data entity from the repository", () async {
+    when(() => repository.getDataCovidCountryFromName(coutryName)).thenAnswer(
+        (_) async =>
+            Right<ServerFailure, CoutryCovidDataEntity>(tDataCovidCountry));
+
+    final result = await usecase(coutryName);
+    expect(result, Right(tDataCovidCountry));
+    verify(() => repository.getDataCovidCountryFromName(coutryName));
   });
 }
