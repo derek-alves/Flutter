@@ -1,8 +1,8 @@
+import 'package:covidados/core/errors/failures.dart';
 import 'package:covidados/features/domain/entities/data_covid_country_entity.dart';
 import 'package:covidados/features/domain/repositories/data_covid_country_repository.dart';
 import 'package:covidados/features/domain/usecases/get_data_covid_country_usecase.dart';
-import 'package:covidados/usecase/errors/serverFailure.dart';
-import 'package:covidados/usecase/usecase.dart';
+import 'package:covidados/core/usecase/usecase.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -47,8 +47,7 @@ void main() {
 
   test("should get covid data entity from the repository", () async {
     when(() => repository.getDataCovidCountryFromName(coutryName)).thenAnswer(
-        (_) async =>
-            Right<ServerFailure, CoutryCovidDataEntity>(tDataCovidCountry));
+        (_) async => Right<Failure, CoutryCovidDataEntity>(tDataCovidCountry));
 
     final result = await usecase(coutryName);
     expect(result, Right(tDataCovidCountry));
@@ -57,8 +56,7 @@ void main() {
 
   test("should get covid data entity from the repository", () async {
     when(() => repository.getDataCovidCountryFromName(coutryName)).thenAnswer(
-        (_) async =>
-            Right<ServerFailure, CoutryCovidDataEntity>(tDataCovidCountry));
+        (_) async => Right<Failure, CoutryCovidDataEntity>(tDataCovidCountry));
 
     final result = await usecase(coutryName);
     expect(result, Right(tDataCovidCountry));

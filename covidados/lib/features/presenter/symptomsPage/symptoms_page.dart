@@ -1,5 +1,5 @@
 import 'package:covidados/features/presenter/symptomsPage/widgets/button_sympt_widget.dart';
-import 'package:covidados/utils/app_dialogs_text.dart';
+import 'package:covidados/core/utils/app_dialogs_text.dart';
 import 'package:flutter/material.dart';
 
 class SymptomsPage extends StatelessWidget {

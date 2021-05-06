@@ -1,7 +1,8 @@
 import 'package:covidados/features/data/datasource/data_covid_country_datasource.dart';
 import 'package:covidados/features/data/models/data_covid_country_model.dart';
-import 'package:covidados/features/data/repositories/data_covid_country_repository_implementatio.dart';
+import 'package:covidados/features/data/repositories/data_covid_country_repository_implementation.dart';
 import 'package:covidados/features/domain/entities/data_covid_country_entity.dart';
+import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -44,8 +45,12 @@ void main() {
   );
 
   test('should return data covid country media model when calls the datasource',
-      () {
+      () async {
     when(() => datasource.getDataCovidCountryFromName(coutryName))
         .thenAnswer((_) async => tDataCovidCountryModel);
+
+    final result = await repository.getDataCovidCountryFromName(coutryName);
+
+    expect(result, Right(tDataCovidCountryModel));
   });
 }
