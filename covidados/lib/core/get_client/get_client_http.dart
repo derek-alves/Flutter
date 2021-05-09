@@ -1,12 +1,10 @@
-abstract class GetClientHttp {
-  Future<GetClientHttpResponse> get(String url);
-  Future<GetClientHttpResponse> post(String url,
-      {required Map<String, dynamic> body});
-}
+import 'package:get/get_connect/connect.dart';
 
-class GetClientHttpResponse {
-  final dynamic data;
-  final int? statusCode;
-
-  GetClientHttpResponse({required this.data, this.statusCode});
+class GetClientHttp extends GetConnect {
+  @override
+  Future<Response<T>> get<T>(String url,
+      {Map<String, String>? headers,
+      String? contentType,
+      Map<String, dynamic>? query,
+      Decoder<T>? decoder});
 }

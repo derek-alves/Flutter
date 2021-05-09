@@ -1,9 +1,11 @@
+import 'package:covidados/features/presenter/homePage/controller_home_page.dart';
 import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_state_manager/src/simple/get_view.dart';
 
 import 'components/button_home.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends GetView<HomePageCotroller> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

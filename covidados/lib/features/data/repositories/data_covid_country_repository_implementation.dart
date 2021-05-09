@@ -5,10 +5,11 @@ import 'package:covidados/features/domain/entities/data_covid_country_entity.dar
 import 'package:covidados/features/domain/repositories/data_covid_country_repository.dart';
 import 'package:dartz/dartz.dart';
 
-class DataCovidCountryImplemetation implements IDataCovidCountryRepository {
+class DataCovidCountryRepositoryImplemetation
+    implements IDataCovidCountryRepository {
   final IDataCovidCountrtyDatasource datasource;
 
-  DataCovidCountryImplemetation(this.datasource);
+  DataCovidCountryRepositoryImplemetation(this.datasource);
 
   @override
   Future<Either<Failure, CoutryCovidDataEntity>> getDataCovidCountryFromName(

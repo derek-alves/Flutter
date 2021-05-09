@@ -10,12 +10,12 @@ class MockDataCovidCountrtyDatasource extends Mock
     implements IDataCovidCountrtyDatasource {}
 
 void main() {
-  late DataCovidCountryImplemetation repository;
+  late DataCovidCountryRepositoryImplemetation repository;
   late IDataCovidCountrtyDatasource datasource;
 
   setUp(() {
     datasource = MockDataCovidCountrtyDatasource();
-    repository = DataCovidCountryImplemetation(datasource);
+    repository = DataCovidCountryRepositoryImplemetation(datasource);
   });
 
   final coutryName = "Brazil";

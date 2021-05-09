@@ -1,5 +1,6 @@
 import 'package:covidados/core/utils/app_routes.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class LandingPage extends StatelessWidget {
   @override
@@ -92,9 +93,7 @@ class LandingPage extends StatelessWidget {
                   SizedBox(height: constraints.maxHeight * 0.03),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.of(context).pushNamed(
-                        AppRoutes.HOME,
-                      );
+                      Get.offNamed(AppRoutes.HOME);
                     },
                     child: Text(
                       "Começar Agora",

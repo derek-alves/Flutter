@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'package:covidados/core/errors/exceptions.dart';
 import 'package:covidados/core/get_client/get_client_http.dart';
 import 'package:covidados/features/data/datasource/data_covid_country_datasource.dart';
 import 'package:covidados/features/data/datasource/endpoints/novel_covid_endpoints.dart';
@@ -14,11 +12,11 @@ class DatacovidCountryDataSourceImplementation
   Future<DataCovidCountryModel> getDataCovidCountryFromName(
       String coutryName) async {
     final response =
-        await client.get(NovelCovidEndpoints.covidCountry("Brazil"));
-    if (response.statusCode == 200) {
-      return DataCovidCountryModel.fromJson(jsonDecode(response.data));
-    } else {
-      throw ServerException();
+        await client.get(NovelCovidEndpoints.covidCountry(coutryName));
+    try {
+      return DataCovidCountryModel.fromJson(response.body);
+    } catch (e) {
+      rethrow;
     }
   }
 }
