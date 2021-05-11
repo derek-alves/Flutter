@@ -8,18 +8,18 @@ class HomePageCotroller extends GetxController with StateMixin {
 
   @override
   void onInit() {
-    super.onInit();
     findDataCovidCountry("Brazil");
+    super.onInit();
   }
 
   Future<void> findDataCovidCountry(String coutryName) async {
-    change([], status: RxStatus.loading());
+    change(null, status: RxStatus.loading());
     try {
       final dados =
           await _countryRepository.getDataCovidCountryFromName(coutryName);
       change(dados, status: RxStatus.success());
     } catch (e) {
-      change([], status: RxStatus.error());
+      change(null, status: RxStatus.error());
     }
   }
 }

@@ -8,10 +8,13 @@ import 'package:get/get.dart';
 class HomePageBindings implements Bindings {
   @override
   void dependencies() {
-    Get.put(GetClientHttp());
-    Get.put(DatacovidCountryDataSourceImplementation(Get.find()));
+    Get.put(GetClientHttp(), tag: "client_http");
+    Get.put(
+        DatacovidCountryDataSourceImplementation(Get.find(tag: "client_http")),
+        tag: "datasource");
     Get.put<IDataCovidCountryRepository>(
-        DataCovidCountryRepositoryImplemetation(Get.find()));
-    Get.put(HomePageCotroller(Get.find()));
+        DataCovidCountryRepositoryImplemetation(Get.find(tag: "datasource")),
+        tag: "home_repository");
+    Get.put(HomePageCotroller(Get.find(tag: "home_repository")));
   }
 }

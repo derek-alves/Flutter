@@ -1,5 +1,6 @@
 import 'package:covidados/core/utils/app_routes.dart';
 import 'package:covidados/features/presenter/homePage/bindings_home_page.dart';
+import 'package:covidados/features/presenter/preventionPage/prevention_page.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         accentColor: Color(0xff3AD39C),
       ),
-      initialRoute: AppRoutes.LANDING_PAGE,
+      initialRoute: AppRoutes.PREVENTION_PAGE,
       getPages: [
         GetPage(name: AppRoutes.LANDING_PAGE, page: () => LandingPage()),
         GetPage(
@@ -39,7 +40,11 @@ class MyApp extends StatelessWidget {
             GetPage(
               name: AppRoutes.SYMPTOMS_PAGE,
               page: () => SymptomsPage(),
-            )
+            ),
+            GetPage(
+              name: AppRoutes.PREVENTION_PAGE,
+              page: () => PreventionPage(),
+            ),
           ],
         ),
       ],
