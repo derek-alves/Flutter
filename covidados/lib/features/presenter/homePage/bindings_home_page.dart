@@ -12,6 +12,7 @@ class HomePageBindings implements Bindings {
     Get.put(
         DatacovidCountryDataSourceImplementation(Get.find(tag: "client_http")),
         tag: "datasource");
+
     Get.put<IDataCovidCountryRepository>(
         DataCovidCountryRepositoryImplemetation(Get.find(tag: "datasource")),
         tag: "home_repository");

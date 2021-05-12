@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         accentColor: Color(0xff3AD39C),
       ),
-      initialRoute: AppRoutes.PREVENTION_PAGE,
+      initialRoute: AppRoutes.HOME,
       getPages: [
         GetPage(name: AppRoutes.LANDING_PAGE, page: () => LandingPage()),
         GetPage(

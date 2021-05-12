@@ -17,8 +17,11 @@ class HomePageCotroller extends GetxController with StateMixin {
     try {
       final dados =
           await _countryRepository.getDataCovidCountryFromName(coutryName);
+      print(dados);
       change(dados, status: RxStatus.success());
     } catch (e) {
+      print("error");
+      print(e);
       change(null, status: RxStatus.error());
     }
   }

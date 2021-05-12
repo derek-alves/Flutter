@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 
 class CoutryCovidDataEntity extends Equatable {
   final String country;
-  final CoutryInfo countryInfo;
+  // final Object countryInfo;
   final int cases;
   final int deaths;
   final int recovered;
@@ -21,7 +21,7 @@ class CoutryCovidDataEntity extends Equatable {
 
   CoutryCovidDataEntity({
     required this.country,
-    required this.countryInfo,
+    // required this.countryInfo,
     required this.cases,
     required this.deaths,
     required this.recovered,
@@ -42,7 +42,7 @@ class CoutryCovidDataEntity extends Equatable {
   @override
   List<Object> get props => [
         country,
-        countryInfo,
+        // countryInfo,
         cases,
         deaths,
         recovered,
@@ -61,16 +61,23 @@ class CoutryCovidDataEntity extends Equatable {
       ];
 }
 
-class CoutryInfo {
-  final String iso2;
-  final int lat;
-  final int long;
-  final String flag;
+// class CoutryInfo {
+//   final String iso2;
+//   final int lat;
+//   final int long;
+//   final String flag;
 
-  CoutryInfo({
-    required this.iso2,
-    required this.lat,
-    required this.long,
-    required this.flag,
-  });
-}
+//   CoutryInfo({
+//     required this.iso2,
+//     required this.lat,
+//     required this.long,
+//     required this.flag,
+//   });
+
+//   List<Object> get props => [
+//         iso2,
+//         lat,
+//         long,
+//         flag,
+//       ];
+// }

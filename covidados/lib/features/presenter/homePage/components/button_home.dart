@@ -1,16 +1,17 @@
 import 'package:covidados/core/utils/app_routes.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ButtonHome extends StatelessWidget {
   final int color;
   final String image;
   final String title;
-  final String? route;
+  // final String? route;
   ButtonHome({
     required this.color,
     required this.image,
     required this.title,
-    this.route,
+    // this.route,
   });
 
   @override
@@ -25,11 +26,7 @@ class ButtonHome extends StatelessWidget {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           ),
-          onPressed: () {
-            Navigator.of(context).pushNamed(
-              AppRoutes.SYMPTOMS_PAGE,
-            );
-          },
+          onPressed: () => Get.toNamed("/home/prevent"),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
