@@ -12,11 +12,8 @@ class UserHttpRepository implements IUserRepository {
     final response = await http.get(url);
 
     final List<dynamic> responseMap = jsonDecode(response.body);
-    print(responseMap);
-    var result =
-        responseMap.map<UserModel>((resp) => UserModel.fromMap(resp)).toList();
-
-    print(result);
-    return result;
+    return responseMap
+        .map<UserModel>((resp) => UserModel.fromMap(resp))
+        .toList();
   }
 }
