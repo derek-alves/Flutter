@@ -11,7 +11,12 @@ class UserHttpRepository implements IUserRepository {
     var url = Uri.https("5f7cba02834b5c0016b058aa.mockapi.io", "/api/users");
     final response = await http.get(url);
 
-    final List<Map<String, dynamic>> responseMap = jsonDecode(response.body);
-    return responseMap.map<UserModel>((resp) {}).toList();
+    final List<dynamic> responseMap = jsonDecode(response.body);
+    print(responseMap);
+    var result =
+        responseMap.map<UserModel>((resp) => UserModel.fromMap(resp)).toList();
+
+    print(result);
+    return result;
   }
 }

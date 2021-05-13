@@ -6,12 +6,12 @@ class UserModel {
   String id;
   String name;
   String username;
-  List<UserTypeModel> types;
+  List<UserTypeModel>? types;
 
   UserModel({
     required this.id,
     required this.name,
-    required this.types,
+    this.types,
     required this.username,
   });
 
@@ -20,7 +20,7 @@ class UserModel {
       'id': id,
       'name': name,
       'username': username,
-      'types': types.map((x) => x.toMap()).toList(),
+      'types': types?.map((x) => x?.toMap())?.toList(),
     };
   }
 
@@ -30,7 +30,7 @@ class UserModel {
       name: map['name'],
       username: map['username'],
       types: List<UserTypeModel>.from(
-          map['types']?.map((x) => UserTypeModel.fromMap(x))),
+          map['user_types']?.map((x) => UserTypeModel.fromMap(x))),
     );
   }
 
