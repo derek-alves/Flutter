@@ -1,6 +1,8 @@
 import 'package:covidados/core/utils/app_routes.dart';
+import 'package:covidados/features/presenter/contagionPage/contagion_page.dart';
 import 'package:covidados/features/presenter/homePage/bindings_home_page.dart';
 import 'package:covidados/features/presenter/preventionPage/prevention_page.dart';
+import 'package:covidados/features/presenter/virusPage/virus_page.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -44,6 +46,14 @@ class MyApp extends StatelessWidget {
             GetPage(
               name: AppRoutes.PREVENTION_PAGE,
               page: () => PreventionPage(),
+            ),
+            GetPage(
+              name: AppRoutes.CONTAGION_PAGE,
+              page: () => ContagionPage(),
+            ),
+            GetPage(
+              name: AppRoutes.VIRUS_PAGE,
+              page: () => VirusPage(),
             ),
           ],
         ),

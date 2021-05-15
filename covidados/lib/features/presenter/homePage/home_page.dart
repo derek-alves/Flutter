@@ -134,11 +134,13 @@ class HomePage extends GetView<HomePageCotroller> {
                                       color: 0xff24A577,
                                       image: "assets/b-1.png",
                                       title: "Contágio",
+                                      route: "/contagion",
                                     ),
                                     ButtonHome(
                                       color: 0xff392045,
                                       image: "assets/b-2.png",
                                       title: "Prevenção",
+                                      route: "/prevent",
                                     ),
                                   ],
                                 ),
@@ -151,11 +153,13 @@ class HomePage extends GetView<HomePageCotroller> {
                                       color: 0xffCF1845,
                                       image: "assets/b-3.png",
                                       title: "Vírus",
+                                      route: "/virus",
                                     ),
                                     ButtonHome(
                                       color: 0xffF79339,
                                       image: "assets/b-4.png",
                                       title: "Sintomas",
+                                      route: "/sympt",
                                     ),
                                   ],
                                 )

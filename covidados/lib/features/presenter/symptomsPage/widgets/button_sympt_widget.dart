@@ -86,11 +86,48 @@ class ButtonSympt extends StatelessWidget {
                       context: context,
                       builder: (context) {
                         return Dialog(
-                          child: Container(
-                            height: 250,
-                            child: Column(
-                              children: [Text("FEBRE")],
-                            ),
+                          child: Stack(
+                            alignment: Alignment.topCenter,
+                            clipBehavior: Clip.none,
+                            children: [
+                              Container(
+                                alignment: Alignment.topCenter,
+                                padding: EdgeInsets.fromLTRB(10, 30, 10, 0),
+                                height: 200,
+                                width: double.infinity,
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        title,
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      SizedBox(height: 10),
+                                      Text(
+                                        text,
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                        ),
+                                        textAlign: TextAlign.justify,
+                                      ),
+                                      SizedBox(height: 10),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                top: -17,
+                                child: CircleAvatar(
+                                  backgroundColor: Color(0xffF79339),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(6),
+                                    child: Image.asset(img),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         );
                       });

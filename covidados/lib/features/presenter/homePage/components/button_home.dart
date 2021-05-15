@@ -6,12 +6,12 @@ class ButtonHome extends StatelessWidget {
   final int color;
   final String image;
   final String title;
-  // final String? route;
+  final String route;
   ButtonHome({
     required this.color,
     required this.image,
     required this.title,
-    // this.route,
+    required this.route,
   });
 
   @override
@@ -26,7 +26,7 @@ class ButtonHome extends StatelessWidget {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           ),
-          onPressed: () => Get.toNamed("/home/prevent"),
+          onPressed: () => Get.toNamed("/home" + route),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
