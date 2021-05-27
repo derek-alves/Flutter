@@ -1,9 +1,9 @@
 import 'package:covidados/features/domain/entities/data_covid_country_entity.dart';
 
-class DataCovidCountryModel extends CoutryCovidDataEntity {
+class DataCovidCountryModel extends CountryCovidDataEntity {
   DataCovidCountryModel({
     required String country,
-    // required Object countryInfo,
+    required CountryInfo countryInfo,
     required int cases,
     required int deaths,
     required int recovered,
@@ -21,7 +21,7 @@ class DataCovidCountryModel extends CoutryCovidDataEntity {
     required double criticalPerOneMillion,
   }) : super(
           country: country,
-          // countryInfo: countryInfo,
+          countryInfo: countryInfo,
           cases: cases,
           deaths: deaths,
           recovered: recovered,
@@ -39,44 +39,45 @@ class DataCovidCountryModel extends CoutryCovidDataEntity {
           criticalPerOneMillion: criticalPerOneMillion,
         );
 
-  factory DataCovidCountryModel.fromJson(Map<String, dynamic> json) =>
-      DataCovidCountryModel(
-        country: json['country'],
-        // countryInfo: json['countryInfo'],
-        cases: json['cases'],
-        deaths: json['deaths'],
-        recovered: json['recovered'],
-        active: json[' active'],
-        casesPerOneMillion: json['casesPerOneMillion'],
-        deathsPerOneMillion: json['deathsPerOneMillion'],
-        tests: json['tests'],
-        testsPerOneMillion: json['testsPerOneMillion'],
-        population: json['population'],
-        oneCasePerPeople: json['oneCasePerPeople'],
-        oneDeathPerPeople: json['oneDeathPerPeople'],
-        oneTestPerPeople: json['oneTestPerPeople'],
-        activePerOneMillion: json['activePerOneMillion'],
-        recoveredPerOneMillion: json['recoveredPerOneMillion'],
-        criticalPerOneMillion: json['criticalPerOneMillion'],
-      );
+  // factory DataCovidCountryModel.fromJson(Map<String, dynamic> json) =>
+  //     DataCovidCountryModel(
+  //       country: json['country'],
+  //       // countryInfo: json['countryInfo'],
+  //       cases: json['cases'],
+  //       deaths: json['deaths'],
+  //       recovered: json['recovered'],
+  //       active: json[' active'],
+  //       casesPerOneMillion: json['casesPerOneMillion'],
+  //       deathsPerOneMillion: json['deathsPerOneMillion'],
+  //       tests: json['tests'],
+  //       testsPerOneMillion: json['testsPerOneMillion'],
+  //       population: json['population'],
+  //       oneCasePerPeople: json['oneCasePerPeople'],
+  //       oneDeathPerPeople: json['oneDeathPerPeople'],
+  //       oneTestPerPeople: json['oneTestPerPeople'],
+  //       activePerOneMillion: json['activePerOneMillion'],
+  //       recoveredPerOneMillion: json['recoveredPerOneMillion'],
+  //       criticalPerOneMillion: json['criticalPerOneMillion'],
+  //     );
 
-  Map<String, dynamic> toJson() => {
-        'country': country,
-        // 'countryInfo': countryInfo,
-        'cases': cases,
-        'deaths': deaths,
-        'recovered': recovered,
-        'active': active,
-        'casesPerOneMillion': casesPerOneMillion,
-        'deathsPerOneMillion': deathsPerOneMillion,
-        'tests': tests,
-        'testsPerOneMillion': testsPerOneMillion,
-        'population': population,
-        'oneCasePerPeople': oneCasePerPeople,
-        'oneDeathPerPeople': oneDeathPerPeople,
-        'oneTestPerPeople': oneTestPerPeople,
-        'activePerOneMillion': activePerOneMillion,
-        'recoveredPerOneMillion': recoveredPerOneMillion,
-        'criticalPerOneMillion': criticalPerOneMillion,
-      };
+  // Map<String, dynamic> toJson() => {
+  //       'country': country,
+  //       // 'countryInfo': countryInfo,
+  //       'cases': cases,
+  //       'deaths': deaths,
+  //       'recovered': recovered,
+  //       'active': active,
+  //       'casesPerOneMillion': casesPerOneMillion,
+  //       'deathsPerOneMillion': deathsPerOneMillion,
+  //       'tests': tests,
+  //       'testsPerOneMillion': testsPerOneMillion,
+  //       'population': population,
+  //       'oneCasePerPeople': oneCasePerPeople,
+  //       'oneDeathPerPeople': oneDeathPerPeople,
+  //       'oneTestPerPeople': oneTestPerPeople,
+  //       'activePerOneMillion': activePerOneMillion,
+  //       'recoveredPerOneMillion': recoveredPerOneMillion,
+  //       'criticalPerOneMillion': criticalPerOneMillion,
+  // };
+
 }

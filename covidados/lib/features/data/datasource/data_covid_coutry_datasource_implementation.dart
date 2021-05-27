@@ -14,9 +14,9 @@ class DatacovidCountryDataSourceImplementation
     final response =
         await client.get(NovelCovidEndpoints.covidCountry(coutryName));
     try {
-      return DataCovidCountryModel.fromJson(response.body);
+      return DataCovidCountryModel;
     } catch (e) {
-      rethrow;
+      throw e;
     }
   }
 }

@@ -13,7 +13,7 @@ class DataCovidCountryRepositoryImplemetation
   DataCovidCountryRepositoryImplemetation(this.datasource);
 
   @override
-  Future<Either<Failure, CoutryCovidDataEntity>> getDataCovidCountryFromName(
+  Future<Either<Failure, CountryCovidDataEntity>> getDataCovidCountryFromName(
       String coutryName) async {
     try {
       final result = await datasource.getDataCovidCountryFromName(coutryName);
