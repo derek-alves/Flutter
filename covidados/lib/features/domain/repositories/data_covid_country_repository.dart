@@ -3,6 +3,6 @@ import 'package:covidados/features/domain/entities/data_covid_country_entity.dar
 import 'package:dartz/dartz.dart';
 
 abstract class IDataCovidCountryRepository {
-  Future<Either<Failure, CoutryCovidDataEntity>> getDataCovidCountryFromName(
+  Future<Either<Failure, CountryCovidDataEntity>> getDataCovidCountryFromName(
       String coutryName);
 }

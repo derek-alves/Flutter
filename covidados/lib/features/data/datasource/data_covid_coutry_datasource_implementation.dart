@@ -11,10 +11,14 @@ class DatacovidCountryDataSourceImplementation
   @override
   Future<DataCovidCountryModel> getDataCovidCountryFromName(
       String coutryName) async {
-    final response =
-        await client.get(NovelCovidEndpoints.covidCountry(coutryName));
     try {
-      return DataCovidCountryModel;
+      final response =
+          await client.get(NovelCovidEndpoints.covidCountry(coutryName));
+
+      final data = response.body;
+      data.map<DataCovidCountryModel>(
+          (value) => DataCovidCountryModel.fromMap(value));
+      return data;
     } catch (e) {
       throw e;
     }

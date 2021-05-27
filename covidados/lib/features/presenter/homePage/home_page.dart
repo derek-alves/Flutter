@@ -1,8 +1,7 @@
-import 'package:covidados/core/utils/app_routes.dart';
 import 'package:covidados/features/presenter/homePage/controller_home_page.dart';
 import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_state_manager/src/simple/get_view.dart';
+import 'package:get/get.dart';
 
 import 'components/button_home.dart';
 
@@ -21,88 +20,92 @@ class HomePage extends GetView<HomePageCotroller> {
                   height: maxHeight * 0.30,
                   padding:
                       EdgeInsets.only(bottom: 12, left: 15, right: 15, top: 2),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Olá!",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: maxHeight * 0.036,
-                            fontWeight: FontWeight.w600),
-                      ),
-                      Text(
-                        "Seja Bem-Vindo(a)",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: maxHeight * 0.03,
-                            fontWeight: FontWeight.w400),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 6, vertical: 3),
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(4)),
-                              border: Border.all(color: Colors.white, width: 2),
+                  child: controller.obx(
+                    (state) => Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Olá!",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: maxHeight * 0.036,
+                              fontWeight: FontWeight.w600),
+                        ),
+                        Text(
+                          "Seja Bem-Vindo(a)",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: maxHeight * 0.03,
+                              fontWeight: FontWeight.w400),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 6, vertical: 3),
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(4)),
+                                border:
+                                    Border.all(color: Colors.white, width: 2),
+                              ),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    "CONFIRMADOS",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: constraint.maxWidth * 0.03),
+                                  ),
+                                  Text(
+                                    "007.256",
+                                    style: TextStyle(
+                                        letterSpacing: 1,
+                                        fontSize: constraint.maxWidth * 0.05,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500),
+                                  )
+                                ],
+                              ),
                             ),
-                            child: Column(
-                              children: [
-                                Text(
-                                  "CONFIRMADOS",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: constraint.maxWidth * 0.03),
-                                ),
-                                Text(
-                                  "007.256",
-                                  style: TextStyle(
-                                      letterSpacing: 1,
-                                      fontSize: constraint.maxWidth * 0.05,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w500),
-                                )
-                              ],
+                            Flag('BR',
+                                height: 50, width: constraint.maxWidth * 0.12),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 6, vertical: 3),
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(4)),
+                                border:
+                                    Border.all(color: Colors.white, width: 2),
+                              ),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    "CURADOS",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: constraint.maxWidth * 0.03),
+                                  ),
+                                  Text(
+                                    "007.256",
+                                    style: TextStyle(
+                                        letterSpacing: 1,
+                                        fontSize: constraint.maxWidth * 0.05,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500),
+                                  )
+                                ],
+                              ),
                             ),
-                          ),
-                          Flag('BR',
-                              height: 50, width: constraint.maxWidth * 0.12),
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 6, vertical: 3),
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(4)),
-                              border: Border.all(color: Colors.white, width: 2),
-                            ),
-                            child: Column(
-                              children: [
-                                Text(
-                                  "CURADOS",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: constraint.maxWidth * 0.03),
-                                ),
-                                Text(
-                                  "007.256",
-                                  style: TextStyle(
-                                      letterSpacing: 1,
-                                      fontSize: constraint.maxWidth * 0.05,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w500),
-                                )
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 Column(
