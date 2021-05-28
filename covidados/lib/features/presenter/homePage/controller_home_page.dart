@@ -1,8 +1,11 @@
-import 'package:covidados/features/domain/repositories/data_covid_country_repository.dart';
+import 'package:covidados/features/data/models/data_covid_country_model.dart';
+import 'package:covidados/features/data/repositories/data_covid_country_repository_implementation.dart';
+
 import 'package:get/get.dart';
 
 class HomePageCotroller extends GetxController with StateMixin {
-  final IDataCovidCountryRepository _countryRepository;
+  final DataCovidCountryRepositoryImplemetation _countryRepository;
+  final _selectedScreenIndex = 0.obs;
 
   HomePageCotroller(this._countryRepository);
 
@@ -15,13 +18,11 @@ class HomePageCotroller extends GetxController with StateMixin {
   Future<void> findDataCovidCountry(String coutryName) async {
     change(null, status: RxStatus.loading());
     try {
-      final dados =
+      final DataCovidCountryModel dados =
           await _countryRepository.getDataCovidCountryFromName(coutryName);
-      print(dados);
+
       change(dados, status: RxStatus.success());
     } catch (e) {
-      print("error");
-      print(e);
       change(null, status: RxStatus.error());
     }
   }

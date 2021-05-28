@@ -1,5 +1,6 @@
+import 'package:covidados/features/data/models/data_covid_country_model.dart';
+import 'package:covidados/features/domain/entities/country_info_entity.dart';
 import 'package:covidados/features/presenter/homePage/controller_home_page.dart';
-import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -20,8 +21,10 @@ class HomePage extends GetView<HomePageCotroller> {
                   height: maxHeight * 0.30,
                   padding:
                       EdgeInsets.only(bottom: 12, left: 15, right: 15, top: 2),
-                  child: controller.obx(
-                    (state) => Column(
+                  child: controller.obx((state) {
+                    final DataCovidCountryModel countryData = state;
+                    final CountryInfo infoCountry = countryData.countryInfo;
+                    return Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
@@ -62,7 +65,7 @@ class HomePage extends GetView<HomePageCotroller> {
                                         fontSize: constraint.maxWidth * 0.03),
                                   ),
                                   Text(
-                                    "007.256",
+                                    "${countryData.cases}",
                                     style: TextStyle(
                                         letterSpacing: 1,
                                         fontSize: constraint.maxWidth * 0.05,
@@ -72,8 +75,11 @@ class HomePage extends GetView<HomePageCotroller> {
                                 ],
                               ),
                             ),
-                            Flag('BR',
-                                height: 50, width: constraint.maxWidth * 0.12),
+                            Image.network(
+                              "https://disease.sh/assets/img/flags/br.png",
+                              height: 50,
+                              width: constraint.maxWidth * 0.12,
+                            ),
                             Container(
                               padding: EdgeInsets.symmetric(
                                   horizontal: 6, vertical: 3),
@@ -92,7 +98,7 @@ class HomePage extends GetView<HomePageCotroller> {
                                         fontSize: constraint.maxWidth * 0.03),
                                   ),
                                   Text(
-                                    "007.256",
+                                    "${countryData.recovered}",
                                     style: TextStyle(
                                         letterSpacing: 1,
                                         fontSize: constraint.maxWidth * 0.05,
@@ -105,8 +111,8 @@ class HomePage extends GetView<HomePageCotroller> {
                           ],
                         ),
                       ],
-                    ),
-                  ),
+                    );
+                  }),
                 ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -187,20 +193,6 @@ class HomePage extends GetView<HomePageCotroller> {
             ),
           );
         },
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Theme.of(context).accentColor,
-        iconSize: 28,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: "Home",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: "Dados",
-          ),
-        ],
       ),
     );
   }

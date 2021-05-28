@@ -28,13 +28,13 @@ class ContagionPage extends StatelessWidget {
                 elevation: 4,
               ),
             ),
-            Align(
-              alignment: Alignment(0, 1.05),
+            Positioned(
+              top: 90,
               child: Container(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * 0.85,
+                height: MediaQuery.of(context).size.height * 0.90,
                 decoration: BoxDecoration(
-                  color: Color(0xFFEEEEEE),
+                  color: Colors.white,
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(0),
                     bottomRight: Radius.circular(0),
@@ -59,11 +59,11 @@ class ContagionPage extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.fromLTRB(0, 20, 0, 30),
+                        padding: EdgeInsets.fromLTRB(0, 0, 0, 150),
                         child: Container(
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
-                            color: Color(0xFFEEEEEE),
+                            color: Colors.white,
                           ),
                           child: Column(
                             mainAxisSize: MainAxisSize.max,
@@ -80,7 +80,7 @@ class ContagionPage extends StatelessWidget {
                                       width: 140,
                                       height: 170,
                                       decoration: BoxDecoration(
-                                        color: Color(0xFFEEEEEE),
+                                        color: Colors.white,
                                       ),
                                       child: Column(
                                         mainAxisSize: MainAxisSize.max,
@@ -118,7 +118,7 @@ class ContagionPage extends StatelessWidget {
                                     width: 140,
                                     height: 170,
                                     decoration: BoxDecoration(
-                                      color: Color(0xFFEEEEEE),
+                                      color: Colors.white,
                                     ),
                                     child: Padding(
                                       padding: EdgeInsets.fromLTRB(0, 0, 0, 20),

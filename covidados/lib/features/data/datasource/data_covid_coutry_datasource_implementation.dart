@@ -14,11 +14,9 @@ class DatacovidCountryDataSourceImplementation
     try {
       final response =
           await client.get(NovelCovidEndpoints.covidCountry(coutryName));
-
-      final data = response.body;
-      data.map<DataCovidCountryModel>(
-          (value) => DataCovidCountryModel.fromMap(value));
-      return data;
+      final dynamic data = response.body;
+      final result = DataCovidCountryModel.fromMap(data);
+      return result;
     } catch (e) {
       throw e;
     }

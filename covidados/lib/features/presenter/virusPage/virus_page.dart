@@ -35,15 +35,15 @@ class VirusPage extends StatelessWidget {
                   ),
                 ),
               ),
-              Align(
-                alignment: Alignment(0, 0.99),
+              Positioned(
+                top: 90,
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(0, 0, 1, 0),
                   child: Container(
                     width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height * 0.85,
+                    height: MediaQuery.of(context).size.height * 0.90,
                     decoration: BoxDecoration(
-                      color: Color(0xFFEEEEEE),
+                      color: Colors.white,
                       borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(0),
                         bottomRight: Radius.circular(0),
@@ -111,7 +111,7 @@ class VirusPage extends StatelessWidget {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
+                            padding: EdgeInsets.fromLTRB(0, 0, 0, 110),
                             child: Container(
                               width: MediaQuery.of(context).size.width,
                               decoration: BoxDecoration(),
