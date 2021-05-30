@@ -1,19 +1,29 @@
-import 'package:faker/faker.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
+// import 'package:faker/faker.dart';
+// import 'package:flutter_test/flutter_test.dart';
+// import 'package:mockito/mockito.dart';
 
-class RemoteAuthentication {
-  Future<void> auth() async {}
-}
+// class RemoteAuthentication {
+//   final HttpClient httpClient;
+//   final String url;
+//   RemoteAuthentication({
+//     required this.httpClient,
+//     required this.url,
+//   });
+//   Future<void> auth() async {}
+// }
 
-void main() {
-  test("should call HttpClient with correct URL", () async {
-    final httpClient = HttpClient();
-    final url = faker.internet.httpUrl();
-    final sut = RemoteAuthentication(httpClient: httpClient, url: url);
+// abstract class HttpClient {
+//   Future<void> request({required String url});
+// }
 
-    await sut.auth();
+// void main() {
+//   test("should call HttpClient with correct URL", () async {
+//     final httpClient = HttpClient();
+//     final url = faker.internet.httpUrl();
+//     final sut = RemoteAuthentication(httpClient: httpClient, url: url);
 
-    verify(httpClient.request(url: url));
-  });
-}
+//     await sut.auth();
+
+//     verify(httpClient.request(url: url));
+//   });
+// }

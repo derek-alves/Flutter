@@ -76,7 +76,7 @@ class HomePage extends GetView<HomePageCotroller> {
                               ),
                             ),
                             Image.network(
-                              "https://disease.sh/assets/img/flags/br.png",
+                              infoCountry.flag,
                               height: 50,
                               width: constraint.maxWidth * 0.12,
                             ),

@@ -1,9 +1,6 @@
 import 'package:covidados/core/get_client/get_client_http.dart';
-import 'package:covidados/features/data/datasource/data_covid_all_countries_datasource_implemetation.dart';
 import 'package:covidados/features/data/datasource/data_covid_coutry_datasource_implementation.dart';
-import 'package:covidados/features/data/repositories/data_covid_all_countries_repository_implementation.dart';
 import 'package:covidados/features/data/repositories/data_covid_country_repository_implementation.dart';
-import 'package:covidados/features/presenter/dataPage/data_page_controller.dart';
 import 'package:covidados/features/presenter/homePage/controller_home_page.dart';
 import 'package:get/get.dart';
 

@@ -14,7 +14,7 @@ import 'features/presenter/symptomsPage/symptoms_page.dart';
 void main() {
   runApp(
     DevicePreview(
-      enabled: true,
+      enabled: false,
       builder: (context) => MyApp(), // Wrap your app
     ),
   );
@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,
       title: 'Covid Data',
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         accentColor: Color(0xff3AD39C),
       ),
-      initialRoute: AppRoutes.HOME,
+      initialRoute: AppRoutes.LANDING_PAGE,
       getPages: [
         GetPage(name: AppRoutes.LANDING_PAGE, page: () => LandingPage()),
         GetPage(

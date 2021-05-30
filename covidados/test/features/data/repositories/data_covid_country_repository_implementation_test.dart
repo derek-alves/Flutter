@@ -1,7 +1,9 @@
 import 'package:covidados/features/data/datasource/data_covid_country_datasource.dart';
+import 'package:covidados/features/data/models/country_info_model.dart';
 import 'package:covidados/features/data/models/data_covid_country_model.dart';
 import 'package:covidados/features/data/repositories/data_covid_country_repository_implementation.dart';
 import 'package:covidados/features/domain/entities/data_covid_country_entity.dart';
+import 'package:covidados/features/domain/repositories/data_covid_country_repository.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -15,7 +17,7 @@ void main() {
 
   setUp(() {
     datasource = MockDataCovidCountrtyDatasource();
-    repository = DataCovidCountryRepositoryImplemetation(datasource);
+    repository = IDataCovidCountryRepository(datasource);
   });
 
   final coutryName = "Brazil";
@@ -23,11 +25,9 @@ void main() {
   final tDataCovidCountryModel = DataCovidCountryModel(
     active: 1033750,
     cases: 14523807,
-    countryInfo: CoutryInfo(
-        flag: "https://disease.sh/assets/img/flags/br.png",
-        iso2: "BR",
-        lat: -10,
-        long: -55),
+    countryInfo: CountryInfoModel(
+      flag: "https://disease.sh/assets/img/flags/br.png",
+    ),
     activePerOneMillion: 4835.06,
     casesPerOneMillion: 67931,
     country: "Brazil",
