@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:routeapi2/models/book_model.dart';
 
 class BooksListScreen extends StatelessWidget {
-  final List<Book> books;
+  final List<Book?> books;
   final ValueChanged<Book> onTapped;
 
   const BooksListScreen({
@@ -18,7 +18,7 @@ class BooksListScreen extends StatelessWidget {
         children: [
           for (var book in books)
             ListTile(
-              title: Text(book.title),
+              title: Text(book!.title),
               subtitle: Text(book.author),
               onTap: () => onTapped(book),
             )
