@@ -2,28 +2,25 @@ import 'package:feichas/features/items/domain/entities/item_entity.dart';
 
 class ItemModel extends IItemEntity {
   const ItemModel(
-    String id,
-    String name,
-    double price,
+    int id,
+    String title,
   ) : super(
           id,
-          name,
-          price,
+          title,
         );
 
+  @override
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'name': name,
-      'price': price,
+      'title': title,
     };
   }
 
   factory ItemModel.fromMap(Map<String, dynamic> map) {
     return ItemModel(
       map['id'],
-      map['name'],
-      map['price'],
+      map['title'],
     );
   }
 }

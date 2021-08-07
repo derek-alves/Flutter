@@ -1,5 +1,5 @@
-import 'package:feichas/features/items/domain/entities/item_entity.dart';
+import 'package:feichas/core/clientHttp/default_response.dart';
 
 abstract class IGetAllItemsRepository {
-  Future<List<IItemEntity>> getAllItems();
+  Future<DefaultResponse> getAllItems();
 }

@@ -1,17 +1,23 @@
-import 'package:feichas/features/items/data/models/item_model.dart';
+import 'package:feichas/core/clientHttp/default_response.dart';
+import 'package:feichas/features/items/data/models/default_create_response_model.dart';
+import 'package:feichas/features/items/data/repositories/create_item_repository_implementation.dart';
+import 'package:feichas/features/items/data/repositories/delete_item_repository_implementation.dart';
 import 'package:feichas/features/items/data/repositories/get_all_items_repository_implementation.dart';
 import 'package:get/get.dart';
 
 class ListScreenController extends GetxController with StateMixin {
   final GetAllItemsRepositoryImplementation repository;
+  final DeleteItemRepositoryImplementation deleteRepository;
+  final CreateItemRepositoryImplementation createRepository;
 
-  final RxBool done = false.obs;
+  final RxList allItems = [].obs;
+  final RxBool isLoading = true.obs;
+  final RxBool error = false.obs;
 
   final RxString item = "".obs;
 
-  void toogleDone() => done.value = !done.value;
-
-  ListScreenController(this.repository);
+  ListScreenController(
+      this.repository, this.deleteRepository, this.createRepository);
 
   @override
   void onInit() {
@@ -21,16 +27,28 @@ class ListScreenController extends GetxController with StateMixin {
 
   void setNewItem(String value) => item.value = value;
 
-  Future<void> getAllItems() async {
-    change([], status: RxStatus.loading());
+  Future<DefaultCreateResponseModel> createItem(
+      Map<String, dynamic> item) async {
+    return await createRepository.create(item);
+  }
 
+  Future<void> getAllItems() async {
     try {
-      final items = await repository.getAllItems();
-      change([
-        const ItemModel("39617e28-a640-46e4-94f3-ef91d0a9f33c", "cabra", 20)
-      ], status: RxStatus.success());
+      final DefaultResponse items = await repository.getAllItems();
+
+      allItems.value = items.items;
+
+      isLoading.value = false;
     } catch (e) {
-      change([], status: RxStatus.error("Erro ao buscar os items"));
+      error.value = true;
+    }
+  }
+
+  Future<void> deleteItem(int id) async {
+    try {
+      await deleteRepository.delete(id);
+    } catch (e) {
+      print(e);
     }
   }
 }

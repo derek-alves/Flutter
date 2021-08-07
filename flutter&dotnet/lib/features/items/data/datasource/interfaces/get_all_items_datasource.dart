@@ -1,5 +1,5 @@
-import 'package:feichas/features/items/data/models/item_model.dart';
+import 'package:feichas/core/clientHttp/default_response.dart';
 
 abstract class IGetAllItemsDatasource {
-  Future<List<ItemModel>> getAllItems();
+  Future<DefaultResponse> getAllItems();
 }

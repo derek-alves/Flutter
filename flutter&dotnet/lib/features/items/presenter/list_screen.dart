@@ -1,3 +1,4 @@
+import 'package:feichas/features/items/data/models/default_create_response_model.dart';
 import 'package:feichas/features/items/data/models/item_model.dart';
 import 'package:feichas/features/items/presenter/list_screen_controller.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +34,28 @@ class ListScreen extends GetView<ListScreenController> {
                     IconButton(
                       icon: const Icon(Icons.add),
                       color: Colors.white,
-                      onPressed: () {},
+                      onPressed: () async {
+                        _formKey.currentState?.save();
+                        print(_formKey.currentState!.value);
+                        final DefaultCreateResponseModel response =
+                            await controller
+                                .createItem(_formKey.currentState!.value);
+                        controller.allItems.add(
+                            ItemModel(response.item.id, response.item.title));
+
+                        FocusScopeNode currentFocus = FocusScope.of(context);
+                        if (!currentFocus.hasPrimaryFocus) {
+                          currentFocus.unfocus();
+                        }
+                        _formKey.currentState!.reset();
+                        Get.defaultDialog(
+                          textCancel: "Ok",
+                          title: "Sucesso",
+                          titleStyle: const TextStyle(
+                              color: Colors.green, fontSize: 25),
+                          middleText: response.message,
+                        );
+                      },
                     ),
                   ],
                 ),
@@ -55,7 +77,7 @@ class ListScreen extends GetView<ListScreenController> {
                             keyboardType: TextInputType.name,
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
-                            name: "name",
+                            name: "title",
                             decoration: InputDecoration(
                               border: const OutlineInputBorder(
                                 borderRadius: BorderRadius.all(
@@ -76,20 +98,45 @@ class ListScreen extends GetView<ListScreenController> {
                             height: 8,
                           ),
                           Expanded(
-                            child: controller.obx((state) {
+                            child: Obx(() {
                               return ListView.separated(
-                                itemCount: state.length,
+                                itemCount: controller.allItems.length,
                                 itemBuilder: (_, index) {
-                                  final ItemModel item = state[index];
-                                  return ListTile(
-                                    title: Text(
-                                      item.name,
-                                      style: const TextStyle(
-                                          decoration:
-                                              TextDecoration.lineThrough,
-                                          color: Colors.black),
+                                  final ItemModel item =
+                                      controller.allItems[index];
+                                  return Dismissible(
+                                    key: Key(item.title),
+                                    background: Container(
+                                      color: Theme.of(context).errorColor,
+                                      child: const Icon(
+                                        Icons.delete,
+                                        color: Colors.white,
+                                        size: 20,
+                                      ),
+                                      alignment: Alignment.centerRight,
+                                      padding: const EdgeInsets.only(right: 20),
+                                      margin: const EdgeInsets.symmetric(
+                                          horizontal: 15, vertical: 4),
                                     ),
-                                    onTap: () {},
+                                    direction: DismissDirection.endToStart,
+                                    onDismissed: (_) async {
+                                      await controller.deleteItem(item.id);
+                                      controller.allItems.removeAt(index);
+                                      const snackBar = SnackBar(
+                                        backgroundColor: Colors.redAccent,
+                                        content: Text('Deletado com sucesso'),
+                                      );
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(snackBar);
+                                    },
+                                    child: ListTile(
+                                      title: Text(
+                                        item.title,
+                                        style: const TextStyle(
+                                            color: Colors.black),
+                                      ),
+                                      onTap: () {},
+                                    ),
                                   );
                                 },
                                 separatorBuilder: (_, __) {
