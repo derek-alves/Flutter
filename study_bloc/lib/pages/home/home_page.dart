@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:study_bloc/pages/bloc/home_bloc.dart';
-import 'package:study_bloc/pages/bloc/home_state.dart';
+import 'package:study_bloc/pages/home/bloc/home_bloc.dart';
+import 'package:study_bloc/pages/home/bloc/home_state.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
