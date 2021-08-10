@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:study_bloc/features/product/models/product.dart';
 
 part 'product_event.dart';
 part 'product_state.dart';
