@@ -10,10 +10,37 @@ part 'product_state.dart';
 class ProductBloc extends Bloc<ProductEvent, ProductState> {
   ProductBloc() : super(ProductInitial());
 
+  Product _product = Product.empty();
+
   @override
   Stream<ProductState> mapEventToState(
     ProductEvent event,
   ) async* {
-    // TODO: implement mapEventToState
+    if (event is ProductEventUpdate) {
+      _updateProduct(
+          barCode: event.barCode,
+          category: event.category,
+          image: event.image,
+          name: event.name,
+          value: event.value);
+      yield ProductDefaultState(product: _product);
+    }
+  }
+
+  Product get product => _product;
+
+  _updateProduct({
+    String? name,
+    String? barCode,
+    String? category,
+    double? value,
+    String? image,
+  }) {
+    _product = _product.copyWith(
+        name: name,
+        barCode: barCode,
+        category: category,
+        value: value,
+        image: image);
   }
 }

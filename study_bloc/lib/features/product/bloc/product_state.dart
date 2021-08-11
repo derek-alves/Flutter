@@ -17,5 +17,5 @@ class ProductDefaultState extends ProductState {
   final Product product;
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [product];
 }

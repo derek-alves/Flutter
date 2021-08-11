@@ -1,22 +1,30 @@
 import 'package:equatable/equatable.dart';
 
 class Product extends Equatable {
-  final String name;
-  final String barCode;
-  final String category;
-  final double value;
-  final String image;
+  final String? name;
+  final String? barCode;
+  final String? category;
+  final double? value;
+  final String? image;
 
   const Product({
-    required this.name,
-    required this.category,
-    required this.value,
-    required this.image,
-    required this.barCode,
+    this.name,
+    this.category,
+    this.value,
+    this.image,
+    this.barCode,
+  });
+
+  Product.empty({
+    this.name = "",
+    this.category = "",
+    this.value = 0.0,
+    this.image = "",
+    this.barCode = "",
   });
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         name,
         category,
         value,
@@ -25,11 +33,11 @@ class Product extends Equatable {
       ];
 
   Product copyWith({
-    required String name,
-    required String barCode,
-    required String category,
-    required double value,
-    required String image,
+    String? name,
+    String? barCode,
+    String? category,
+    double? value,
+    String? image,
   }) {
     return Product(
       barCode: barCode,

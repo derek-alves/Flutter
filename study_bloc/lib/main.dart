@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:study_bloc/features/product/page/product_page.dart';
+
+import 'features/product/bloc/product_bloc.dart';
 // import 'package:study_bloc/pages/home/bloc/home_bloc.dart';
 // import 'package:study_bloc/pages/home/bloc/home_event.dart';
 // import 'package:study_bloc/pages/home/bloc/home_state.dart';
@@ -21,7 +23,10 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: ProductPage(key: null)
+        home: BlocProvider<ProductBloc>(
+          create: (context) => ProductBloc(),
+          child: ProductPage(key: null),
+        )
 
         // BlocProvider<HomeBloc>(
         //     create: (BuildContext context) =>
