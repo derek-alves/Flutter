@@ -1,109 +1,52 @@
+import 'package:animated_container/splash_page.dart';
 import 'package:flutter/material.dart';
+
+import 'home_page.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+Future<void> cache() async {}
+
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  late final Image background;
+  late final Image logo;
+
+  @override
+  void initState() {
+    super.initState();
+    background = Image.asset("assets/backred.png");
+    logo = Image.asset("assets/logo.png");
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    precacheImage(background.image, context);
+    precacheImage(logo.image, context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  bool stateOfButton = false;
-  bool stateOfText = false;
-  double opacity = 0.0;
-  double buttonWidth = 60;
-
-  Future<void> changeButton() async {
-    setState(() {
-      stateOfButton = !stateOfButton;
-    });
-    if (stateOfButton) {
-      await Future.delayed(const Duration(milliseconds: 1000));
-      setState(() {
-        opacity = 0.3;
-        buttonWidth = 140;
-      });
-      await Future.delayed(const Duration(milliseconds: 400));
-      setState(() {
-        stateOfText = true;
-      });
-    }
-  }
-
-  Future<void> onEndAnimation() async {
-    await Future.delayed(const Duration(milliseconds: 1000));
-    setState(() {
-      stateOfText = false;
-      opacity = 0;
-      buttonWidth = 60;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey,
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            AnimatedContainer(
-              onEnd: onEndAnimation,
-              constraints: const BoxConstraints(maxWidth: 140, minWidth: 70),
-              duration: const Duration(milliseconds: 400),
-              curve: Curves.easeInOut,
-              width: buttonWidth,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(40),
-                color: Colors.white.withOpacity(opacity),
-              ),
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Visibility(
-                      visible: stateOfText, child: const Text("desejo salvo!")),
-                  GestureDetector(
-                    onTap: changeButton,
-                    child: Text(
-                      "<3",
-                      style: TextStyle(
-                        color:
-                            stateOfButton == false ? Colors.red : Colors.black,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
+          primarySwatch: Colors.blue,
+          splashColor: Colors.red,
+          backgroundColor: Colors.amber),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const SplashPage(),
+        'home': (context) => const MyHomePage(title: 'Flutter Demo Home Page'),
+      },
     );
   }
 }
