@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "536809469599",
+    "project_id": "teste-fire0",
+    "storage_bucket": "teste-fire0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:536809469599:android:4cbba76e75bab05f4794aa",
+        "android_client_info": {
+          "package_name": "com.exa.crashlytics"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "536809469599-i2mbrvbb2pu29mikpetg2duc8e3hj9f5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNlGnqNFQpt0wjFOdDvNFVMkN8M5_C9yY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "536809469599-i2mbrvbb2pu29mikpetg2duc8e3hj9f5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
