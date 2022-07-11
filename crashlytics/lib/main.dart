@@ -1,11 +1,21 @@
+import 'dart:async';
+
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-void main() async {
-  runApp(const MyApp());
-  await Firebase.initializeApp();
-  FirebaseCrashlytics.instance.crash();
+void main() {
+  runZonedGuarded(
+    () async {
+      WidgetsFlutterBinding.ensureInitialized();
+      await Firebase.initializeApp();
+
+      FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+
+      runApp(const MyApp());
+    },
+    ((error, stack) => FirebaseCrashlytics.instance.recordError(error, stack)),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -41,6 +51,12 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    FirebaseCrashlytics.instance.log("init State");
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -57,6 +73,11 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
             ),
+            ElevatedButton(
+                onPressed: () {
+                  throw Error();
+                },
+                child: const Text("Erro Manual"))
           ],
         ),
       ),
