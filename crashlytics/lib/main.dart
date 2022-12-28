@@ -54,6 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     FirebaseCrashlytics.instance.log("init State");
+    FirebaseCrashlytics.instance.crash();
   }
 
   @override
