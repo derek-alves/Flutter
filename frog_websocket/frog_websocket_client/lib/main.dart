@@ -33,6 +33,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   late final WebSocket channel;
   String webSocketValue = 'initial';
+  String connection = 'desconected';
 
   void _webSocketValue(String value) {
     setState(() {
@@ -47,7 +48,12 @@ class _MyHomePageState extends State<MyHomePage> {
     channel = WebSocket(uri);
 
     channel.connection.listen((event) {
-      print("connection = $event");
+      setState(() {
+        print(event);
+        connection = event is Connected || event is Reconnected
+            ? "connected"
+            : 'disconnected';
+      });
     });
     channel.messages.listen((message) {
       print("socket $message");
@@ -65,7 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(connection),
       ),
       body: Center(
         child: Column(
@@ -82,10 +88,24 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => channel.send(null),
+        onPressed: () => channel.send(Message.increment.value),
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+}
+
+enum Message {
+  /// An increment message.
+  increment('__increment__'),
+
+  /// A decrement message.
+  decrement('__decrement__');
+
+  /// {@macro message}
+  const Message(this.value);
+
+  /// The value of the message.
+  final String value;
 }
