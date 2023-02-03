@@ -2,6 +2,8 @@
 /// WebSocket counter messages.
 /// {@endtemplate}
 enum Message {
+  vote('voto'),
+
   /// An increment message.
   increment('__increment__'),
 
@@ -13,4 +15,6 @@ enum Message {
 
   /// The value of the message.
   final String value;
+
+  String incrementSpecificCounters(String id) => value + id;
 }

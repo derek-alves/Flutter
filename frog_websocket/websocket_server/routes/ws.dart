@@ -18,6 +18,9 @@ Future<Response> onRequest(RequestContext context) async {
             break;
           case null:
             break;
+          case Message.vote:
+            String voteId = 'sdasdfasdf';
+            break;
         }
       },
       onDone: () => cubit.unsubscribe(channel),
