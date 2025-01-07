@@ -129,6 +129,7 @@ class _ComparisonChartState extends State<ComparisonChart> {
                   show: true,
                   drawHorizontalLine: true,
                   drawVerticalLine: false,
+                  verticalInterval: 2,
                   getDrawingHorizontalLine: (value) {
                     return FlLine(
                       color: Colors.grey.withOpacity(0.5),
@@ -154,6 +155,7 @@ class _ComparisonChartState extends State<ComparisonChart> {
                         final index = uniqueXValues.indexOf(value);
 
                         if (index >= 0 &&
+                            index % 2 == 0 &&
                             index < widget.crossAxisLabels.length) {
                           return Text(
                             widget.crossAxisLabels[index],
@@ -253,4 +255,14 @@ class _ComparisonChartState extends State<ComparisonChart> {
       ),
     );
   }
+}
+
+List<int> range(int start, int end, [int step = 1]) {
+  if (step == 0) {
+    throw ArgumentError('Step cannot be 0');
+  }
+  return List.generate(
+    ((end - start) / step).ceil(),
+    (index) => start + index * step,
+  );
 }
