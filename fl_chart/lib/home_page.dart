@@ -116,153 +116,131 @@ class _ComparisonChartState extends State<ComparisonChart> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          AspectRatio(
-            aspectRatio: 1.5,
-            child: LineChart(
-              LineChartData(
-                gridData: FlGridData(
-                  show: true,
-                  drawHorizontalLine: true,
-                  drawVerticalLine: false,
-                  verticalInterval: 2,
-                  getDrawingHorizontalLine: (value) {
-                    return FlLine(
-                      color: Colors.grey.withOpacity(0.5),
-                      strokeWidth: 1,
-                      dashArray: null,
-                    );
-                  },
-                ),
-                titlesData: FlTitlesData(
-                  topTitles: const AxisTitles(
-                      sideTitles: SideTitles(showTitles: false)),
-                  leftTitles: const AxisTitles(
-                      sideTitles: SideTitles(showTitles: false)),
-                  rightTitles: const AxisTitles(
-                      sideTitles: SideTitles(showTitles: false)),
-                  bottomTitles: AxisTitles(
-                    sideTitles: SideTitles(
-                      showTitles: true,
-                      getTitlesWidget: (value, _) {
-                        final uniqueXValues =
-                            widget.primaryData.map((e) => e.x).toSet().toList();
+    return Container(
+      height: 300,
+      padding: const EdgeInsets.only(
+          left: 16.0, right: 16.0, bottom: 24.0), // Ajuste o espaço inferior
 
-                        final index = uniqueXValues.indexOf(value);
-
-                        if (index >= 0 &&
-                            index % 2 == 0 &&
-                            index < widget.crossAxisLabels.length) {
-                          return Text(
-                            widget.crossAxisLabels[index],
-                            style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          );
-                        } else {
-                          return const SizedBox.shrink();
-                        }
-                      },
-                    ),
-                  ),
-                ),
-                borderData: FlBorderData(show: false),
-                lineBarsData: [
-                  LineChartBarData(
-                    spots: widget.primaryData,
-                    isCurved: true,
-                    color: Colors.green,
-                    dotData: const FlDotData(show: false),
-                    belowBarData: BarAreaData(show: false),
-                  ),
-                  if (widget.showComparison)
-                    LineChartBarData(
-                      spots: widget.secondaryData,
-                      isCurved: true,
-                      color: Colors.brown,
-                      dotData: const FlDotData(show: false),
-                      belowBarData: BarAreaData(show: false),
-                    ),
-                ],
-                lineTouchData: LineTouchData(
-                  touchTooltipData: LineTouchTooltipData(
-                    getTooltipColor: (_) => Colors.white,
-                    tooltipRoundedRadius: 8,
-                    tooltipMargin: 8,
-                    tooltipPadding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    getTooltipItems: (touchedSpots) {
-                      if (touchedSpots.isEmpty) return [];
-
-                      List<LineTooltipItem> tooltipItems = [];
-                      for (var spot in touchedSpots) {
-                        final color = spot.bar.color ?? Colors.black;
-                        final value = spot.y.toStringAsFixed(2);
-
-                        tooltipItems.add(
-                          LineTooltipItem(
-                            value,
-                            TextStyle(
-                              color: color,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        );
-                      }
-
-                      return tooltipItems;
-                    },
-                    fitInsideHorizontally: true,
-                    fitInsideVertically: false,
-                  ),
-                  touchCallback: (_, touchResponse) {
-                    if (touchResponse?.lineBarSpots != null &&
-                        touchResponse?.lineBarSpots?.isNotEmpty == true) {
-                      setState(() {
-                        selectedSpot = touchResponse!.lineBarSpots!.first;
-                      });
-                    }
-                  },
-                  handleBuiltInTouches: true,
-                  getTouchedSpotIndicator: (barData, spotIndexes) {
-                    return spotIndexes.map((index) {
-                      return TouchedSpotIndicatorData(
-                        const FlLine(strokeWidth: 0), // Linha invisível
-                        FlDotData(
-                          show: true,
-                          getDotPainter: (spot, percent, barData, index) {
-                            return FlDotCirclePainter(
-                              radius: 6,
-                              color: barData.color ?? Colors.green,
-                              strokeWidth: 2,
-                              strokeColor: Colors.white,
-                            );
-                          },
-                        ),
-                      );
-                    }).toList();
-                  },
-                ),
+      child: LineChart(
+        LineChartData(
+          minX: 0,
+          maxX: (widget.crossAxisLabels.length - 1).toDouble(),
+          gridData: FlGridData(
+            show: true,
+            drawHorizontalLine: true,
+            drawVerticalLine: false,
+            verticalInterval: 2,
+            getDrawingHorizontalLine: (value) {
+              return FlLine(
+                color: Colors.grey.withOpacity(0.5),
+                strokeWidth: 1,
+                dashArray: null,
+              );
+            },
+          ),
+          titlesData: FlTitlesData(
+            topTitles:
+                const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+            leftTitles:
+                const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+            rightTitles:
+                const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+            bottomTitles: AxisTitles(
+              sideTitles: SideTitles(
+                interval: widget.crossAxisLabels.length > 8
+                    ? (widget.crossAxisLabels.length / 4).ceil().toDouble()
+                    : 1,
+                showTitles: true,
+                getTitlesWidget: (value, meta) {
+                  return SideTitleWidget(
+                    space: 2,
+                    axisSide: AxisSide.bottom,
+                    angle: 1,
+                    child: Text(widget.crossAxisLabels[value.toInt()]),
+                  );
+                },
               ),
             ),
           ),
-        ],
+          borderData: FlBorderData(show: false),
+          lineBarsData: [
+            LineChartBarData(
+              spots: widget.primaryData,
+              isCurved: true,
+              color: Colors.green,
+              dotData: const FlDotData(show: false),
+              belowBarData: BarAreaData(show: false),
+            ),
+            if (widget.showComparison)
+              LineChartBarData(
+                spots: widget.secondaryData,
+                isCurved: true,
+                color: Colors.brown,
+                dotData: const FlDotData(show: false),
+                belowBarData: BarAreaData(show: false),
+              ),
+          ],
+          lineTouchData: LineTouchData(
+            touchTooltipData: LineTouchTooltipData(
+              getTooltipColor: (_) => Colors.white,
+              tooltipRoundedRadius: 8,
+              tooltipMargin: 8,
+              tooltipPadding:
+                  const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              getTooltipItems: (touchedSpots) {
+                if (touchedSpots.isEmpty) return [];
+
+                List<LineTooltipItem> tooltipItems = [];
+                for (var spot in touchedSpots) {
+                  final color = spot.bar.color ?? Colors.black;
+                  final value = spot.y.toStringAsFixed(2);
+
+                  tooltipItems.add(
+                    LineTooltipItem(
+                      value,
+                      TextStyle(
+                        color: color,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  );
+                }
+
+                return tooltipItems;
+              },
+              fitInsideHorizontally: true,
+              fitInsideVertically: false,
+            ),
+            touchCallback: (_, touchResponse) {
+              if (touchResponse?.lineBarSpots != null &&
+                  touchResponse?.lineBarSpots?.isNotEmpty == true) {
+                setState(() {
+                  selectedSpot = touchResponse!.lineBarSpots!.first;
+                });
+              }
+            },
+            handleBuiltInTouches: true,
+            getTouchedSpotIndicator: (barData, spotIndexes) {
+              return spotIndexes.map((index) {
+                return TouchedSpotIndicatorData(
+                  const FlLine(strokeWidth: 0), // Linha invisível
+                  FlDotData(
+                    show: true,
+                    getDotPainter: (spot, percent, barData, index) {
+                      return FlDotCirclePainter(
+                        radius: 6,
+                        color: barData.color ?? Colors.green,
+                        strokeWidth: 2,
+                        strokeColor: Colors.white,
+                      );
+                    },
+                  ),
+                );
+              }).toList();
+            },
+          ),
+        ),
       ),
     );
   }
-}
-
-List<int> range(int start, int end, [int step = 1]) {
-  if (step == 0) {
-    throw ArgumentError('Step cannot be 0');
-  }
-  return List.generate(
-    ((end - start) / step).ceil(),
-    (index) => start + index * step,
-  );
 }

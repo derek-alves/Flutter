@@ -123,11 +123,10 @@ Map<String, dynamic> getDataForFilter(String filter) {
           'Year 10',
           'Year 11',
           'Year 12',
-          'Year 13'
-              'Year 14'
-              'Year 15'
-              'Year 16'
-              'Year 17'
+          'Year 13',
+          'Year 14',
+          'Year 15',
+          'Year 16',
         ],
         'primaryData':
             List.generate(16, (i) => FlSpot(i.toDouble(), 1.5 + i * 0.1)),
