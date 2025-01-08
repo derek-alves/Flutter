@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:test/utils.dart';
@@ -12,10 +13,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String selectedFilter = '1M';
+  String selectedFilter = '6M';
   late List<String> crossAxisLabels;
   late List<FlSpot> primaryData;
   late List<FlSpot> secondaryData;
+  bool showComparison = false;
 
   @override
   void initState() {
@@ -39,15 +41,15 @@ class _HomePageState extends State<HomePage> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
-          color: selectedFilter == filter ? Colors.green : Colors.transparent,
+          color: selectedFilter == filter
+              ? const Color(0xffDFECE4)
+              : Colors.transparent,
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: Colors.green),
         ),
         child: Text(
           filter,
-          style: TextStyle(
-            color: selectedFilter == filter ? Colors.white : Colors.green,
-            fontWeight: FontWeight.bold,
+          style: const TextStyle(
+            color: Colors.black,
           ),
         ),
       ),
@@ -58,30 +60,64 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            ComparisonChart(
-              crossAxisLabels: crossAxisLabels,
-              showComparison: true,
-              primaryData: primaryData,
-              secondaryData: secondaryData,
-              primaryLabel: 'BGF China Bond A2',
-              secondaryLabel: 'S&P 500',
-            ),
-            const SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                _buildFilterButton('1M'),
-                _buildFilterButton('3M'),
-                _buildFilterButton('6M'),
-                _buildFilterButton('1A'),
-                _buildFilterButton('3A'),
-                _buildFilterButton('5A'),
-                _buildFilterButton('Tudo'),
-              ],
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Comparar com',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        'S&P 500',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                      Checkbox(
+                        value: showComparison,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            showComparison = value ?? false;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              ComparisonChart(
+                crossAxisLabels: crossAxisLabels,
+                showComparison: showComparison,
+                primaryData: primaryData,
+                secondaryData: secondaryData,
+                primaryLabel: 'BGF China Bond A2',
+                secondaryLabel: 'S&P 500',
+              ),
+              const SizedBox(height: 24),
+              Container(
+                padding: const EdgeInsets.all(4),
+                decoration: BoxDecoration(
+                  color: const Color(0xffF4F6F7),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _buildFilterButton('6M'),
+                    _buildFilterButton('1A'),
+                    _buildFilterButton('3A'),
+                    _buildFilterButton('5A'),
+                    _buildFilterButton('Tudo'),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -116,25 +152,62 @@ class _ComparisonChartState extends State<ComparisonChart> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 300,
-      padding: const EdgeInsets.only(
-          left: 16.0, right: 16.0, bottom: 24.0), // Ajuste o espaço inferior
-
       child: LineChart(
         LineChartData(
+          clipData: const FlClipData.all(),
           minX: 0,
           maxX: (widget.crossAxisLabels.length - 1).toDouble(),
+          minY: 800,
+          maxY: 1600,
+          extraLinesData: ExtraLinesData(
+            extraLinesOnTop:
+                true, // As linhas extras serão desenhadas acima do gráfico padrão
+
+            horizontalLines: [
+              for (double y in [
+                600,
+                700,
+                800,
+                900,
+                1000,
+                1100,
+                1200,
+                1300,
+                1400,
+                1500,
+              ])
+                HorizontalLine(
+                  y: y, // Posição da linha no eixo Y
+                  color: Colors.grey.withOpacity(0.5),
+                  strokeWidth: 1,
+                  dashArray: null, // Deixe como null para linhas sólidas
+                  label: HorizontalLineLabel(
+                    show: true,
+                    alignment: Alignment
+                        .topRight, // Posição das labels no topo da linha
+                    padding: const EdgeInsets.only(
+                        right: 0), // Espaçamento à direita
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    labelResolver: (line) =>
+                        '\$${line.y.toInt()}', // Formato das labels
+                  ),
+                ),
+            ],
+          ),
           gridData: FlGridData(
             show: true,
             drawHorizontalLine: true,
             drawVerticalLine: false,
-            verticalInterval: 2,
             getDrawingHorizontalLine: (value) {
               return FlLine(
                 color: Colors.grey.withOpacity(0.5),
                 strokeWidth: 1,
-                dashArray: null,
               );
             },
           ),
@@ -143,26 +216,50 @@ class _ComparisonChartState extends State<ComparisonChart> {
                 const AxisTitles(sideTitles: SideTitles(showTitles: false)),
             leftTitles:
                 const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-            rightTitles:
-                const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-            bottomTitles: AxisTitles(
+            rightTitles: const AxisTitles(
               sideTitles: SideTitles(
-                interval: widget.crossAxisLabels.length > 8
-                    ? (widget.crossAxisLabels.length / 4).ceil().toDouble()
-                    : 1,
-                showTitles: true,
-                getTitlesWidget: (value, meta) {
-                  return SideTitleWidget(
-                    space: 2,
-                    axisSide: AxisSide.bottom,
-                    angle: 1,
-                    child: Text(widget.crossAxisLabels[value.toInt()]),
-                  );
-                },
+                showTitles: false,
+              ),
+            ),
+            bottomTitles: AxisTitles(
+              axisNameSize: 40,
+              axisNameWidget: Container(
+                margin: const EdgeInsets.only(top: 6, left: 6, right: 6),
+                width: double.infinity, // Ocupa toda a largura disponível
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    for (int i = 0; i < widget.crossAxisLabels.length; i++)
+                      if (i %
+                              (widget.crossAxisLabels.length > 8
+                                  ? (widget.crossAxisLabels.length / 10).ceil()
+                                  : 1) ==
+                          0)
+                        Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            widget.crossAxisLabels[i],
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: Colors.black,
+                            ),
+                          ),
+                        )
+                  ],
+                ),
+              ),
+              sideTitles: const SideTitles(
+                showTitles: false, // Desativar os sideTitles
               ),
             ),
           ),
-          borderData: FlBorderData(show: false),
+          borderData: FlBorderData(
+            show: true,
+            border: const Border.symmetric(
+              horizontal: BorderSide.none,
+              vertical: BorderSide.none,
+            ),
+          ),
           lineBarsData: [
             LineChartBarData(
               spots: widget.primaryData,
@@ -183,33 +280,77 @@ class _ComparisonChartState extends State<ComparisonChart> {
           lineTouchData: LineTouchData(
             touchTooltipData: LineTouchTooltipData(
               getTooltipColor: (_) => Colors.white,
+              maxContentWidth: 180,
+              fitInsideHorizontally: true,
+              fitInsideVertically: true,
               tooltipRoundedRadius: 8,
-              tooltipMargin: 8,
-              tooltipPadding:
-                  const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              tooltipPadding: const EdgeInsets.all(16),
               getTooltipItems: (touchedSpots) {
                 if (touchedSpots.isEmpty) return [];
 
-                List<LineTooltipItem> tooltipItems = [];
-                for (var spot in touchedSpots) {
-                  final color = spot.bar.color ?? Colors.black;
-                  final value = spot.y.toStringAsFixed(2);
+                final touchedIndex = touchedSpots.first.x.toInt();
+                final clickedDate = touchedIndex < widget.crossAxisLabels.length
+                    ? widget.crossAxisLabels[touchedIndex]
+                    : 'Unknown';
 
-                  tooltipItems.add(
-                    LineTooltipItem(
-                      value,
-                      TextStyle(
-                        color: color,
+                final primarySpot = touchedSpots.firstWhereOrNull(
+                  (spot) => spot.barIndex == 0,
+                );
+                final secondarySpot = touchedSpots.firstWhere(
+                  (spot) => spot.barIndex == 1,
+                );
+                final primaryValue = primarySpot != null
+                    ? primarySpot.y.toStringAsFixed(2)
+                    : 'N/A';
+                final secondaryValue = secondarySpot.y.toStringAsFixed(2);
+
+                return touchedSpots.asMap().entries.map((e) {
+                  if (e.key != 0) {
+                    return null;
+                  }
+                  return LineTooltipItem(
+                      '$clickedDate\n',
+                      const TextStyle(
+                        color: Colors.black,
                         fontWeight: FontWeight.bold,
                       ),
-                    ),
-                  );
-                }
-
-                return tooltipItems;
+                      textAlign: TextAlign.start,
+                      children: [
+                        TextSpan(
+                          text: '\$$primaryValue          ',
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          children: const [
+                            TextSpan(
+                              text: '+10%\n',
+                              style: TextStyle(
+                                color: Colors.green,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ],
+                        ),
+                        TextSpan(
+                          text: '\$$secondaryValue          ',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          children: const [
+                            TextSpan(
+                              text: '-64%',
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ],
+                        )
+                      ]);
+                }).toList();
               },
-              fitInsideHorizontally: true,
-              fitInsideVertically: false,
             ),
             touchCallback: (_, touchResponse) {
               if (touchResponse?.lineBarSpots != null &&
