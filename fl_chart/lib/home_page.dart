@@ -317,7 +317,7 @@ class _ComparisonChartState extends State<ComparisonChart> {
                       textAlign: TextAlign.start,
                       children: [
                         TextSpan(
-                          text: '\$$primaryValue          ',
+                          text: '\$$primaryValue: ',
                           style: const TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w400,
@@ -333,7 +333,7 @@ class _ComparisonChartState extends State<ComparisonChart> {
                           ],
                         ),
                         TextSpan(
-                          text: '\$$secondaryValue          ',
+                          text: '\$$secondaryValue: ',
                           style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w400,
