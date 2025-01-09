@@ -14,7 +14,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   String selectedFilter = '6M';
-  late List<String> crossAxisLabels;
+  List<String> crossAxisLabels = [];
   late List<FlSpot> primaryData;
   late List<FlSpot> secondaryData;
   bool showComparison = false;
@@ -29,7 +29,6 @@ class _HomePageState extends State<HomePage> {
     final data = getDataForFilter(filter);
     setState(() {
       selectedFilter = filter;
-      crossAxisLabels = data['crossAxisLabels'];
       primaryData = data['primaryData'];
       secondaryData = data['secondaryData'];
     });
@@ -156,9 +155,7 @@ class _ComparisonChartState extends State<ComparisonChart> {
       height: 300,
       child: LineChart(
         LineChartData(
-          clipData: const FlClipData.all(),
-          minX: 0,
-          maxX: (widget.crossAxisLabels.length - 1).toDouble(),
+          clipData: const FlClipData.none(),
           minY: 800,
           maxY: 1600,
           extraLinesData: ExtraLinesData(
@@ -222,34 +219,36 @@ class _ComparisonChartState extends State<ComparisonChart> {
               ),
             ),
             bottomTitles: AxisTitles(
-              axisNameSize: 40,
-              axisNameWidget: Container(
-                margin: const EdgeInsets.only(top: 6, left: 6, right: 6),
-                width: double.infinity, // Ocupa toda a largura disponível
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    for (int i = 0; i < widget.crossAxisLabels.length; i++)
-                      if (i %
-                              (widget.crossAxisLabels.length > 8
-                                  ? (widget.crossAxisLabels.length / 10).ceil()
-                                  : 1) ==
-                          0)
-                        Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            widget.crossAxisLabels[i],
-                            style: const TextStyle(
-                              fontSize: 12,
-                              color: Colors.black,
-                            ),
-                          ),
-                        )
-                  ],
-                ),
-              ),
-              sideTitles: const SideTitles(
-                showTitles: false, // Desativar os sideTitles
+              // axisNameWidget: Container(
+              //   margin: const EdgeInsets.only(top: 6, left: 6, right: 6),
+              //   width: double.infinity, // Ocupa toda a largura disponível
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //     children: [
+              //       for (int i = 0; i < widget.crossAxisLabels.length; i++)
+              //         if (i %
+              //                 (widget.crossAxisLabels.length > 8
+              //                     ? (widget.crossAxisLabels.length / 10).ceil()
+              //                     : 1) ==
+              //             0)
+              //           Align(
+              //             alignment: Alignment.center,
+              //             child: Text(
+              //               widget.crossAxisLabels[i],
+              //               style: const TextStyle(
+              //                 fontSize: 12,
+              //                 color: Colors.black,
+              //               ),
+              //             ),
+              //           )
+              //     ],
+              //   ),
+              // ),
+              sideTitles: SideTitles(
+                showTitles: true, // Desativar os sideTitles
+                getTitlesWidget: (value, meta) {
+                  return Text("$value");
+                },
               ),
             ),
           ),
@@ -296,59 +295,23 @@ class _ComparisonChartState extends State<ComparisonChart> {
                 final primarySpot = touchedSpots.firstWhereOrNull(
                   (spot) => spot.barIndex == 0,
                 );
-                final secondarySpot = touchedSpots.firstWhere(
+                final secondarySpot = touchedSpots.firstWhereOrNull(
                   (spot) => spot.barIndex == 1,
                 );
                 final primaryValue = primarySpot != null
                     ? primarySpot.y.toStringAsFixed(2)
                     : 'N/A';
-                final secondaryValue = secondarySpot.y.toStringAsFixed(2);
+                final secondaryValue = secondarySpot?.y.toStringAsFixed(2);
 
                 return touchedSpots.asMap().entries.map((e) {
-                  if (e.key != 0) {
-                    return null;
+                  if (e.key == 0) {
+                    return _getLineTooltipItem(
+                      clickedDate,
+                      primaryValue,
+                      secondaryValue,
+                    );
                   }
-                  return LineTooltipItem(
-                      '$clickedDate\n',
-                      const TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.start,
-                      children: [
-                        TextSpan(
-                          text: '\$$primaryValue: ',
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w400,
-                          ),
-                          children: const [
-                            TextSpan(
-                              text: '+10%\n',
-                              style: TextStyle(
-                                color: Colors.green,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ],
-                        ),
-                        TextSpan(
-                          text: '\$$secondaryValue: ',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w400,
-                          ),
-                          children: const [
-                            TextSpan(
-                              text: '-64%',
-                              style: TextStyle(
-                                color: Colors.red,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ],
-                        )
-                      ]);
+                  return null;
                 }).toList();
               },
             ),
@@ -383,5 +346,54 @@ class _ComparisonChartState extends State<ComparisonChart> {
         ),
       ),
     );
+  }
+
+  LineTooltipItem _getLineTooltipItem(
+    String clickedDate,
+    String primaryValue,
+    String? secondaryValue,
+  ) {
+    return LineTooltipItem(
+        '$clickedDate\n',
+        const TextStyle(
+          color: Colors.black,
+          fontWeight: FontWeight.bold,
+        ),
+        textAlign: TextAlign.start,
+        children: [
+          TextSpan(
+            text: '\$$primaryValue: ',
+            style: const TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.w400,
+            ),
+            children: const [
+              TextSpan(
+                text: '+10%\n',
+                style: TextStyle(
+                  color: Colors.green,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+            ],
+          ),
+          if (widget.showComparison && secondaryValue != null)
+            TextSpan(
+              text: '\$$secondaryValue: ',
+              style: const TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.w400,
+              ),
+              children: const [
+                TextSpan(
+                  text: '-64%',
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ],
+            )
+        ]);
   }
 }
