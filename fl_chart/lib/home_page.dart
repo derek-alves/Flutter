@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:collection/collection.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +17,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   String selectedFilter = '6M';
   List<String> crossAxisLabels = [];
-  late List<FlSpot> primaryData;
-  late List<FlSpot> secondaryData;
+  late List<double> primaryData;
+  late List<double> secondaryData;
+
   bool showComparison = false;
 
   @override
@@ -29,6 +32,7 @@ class _HomePageState extends State<HomePage> {
     final data = getDataForFilter(filter);
     setState(() {
       selectedFilter = filter;
+
       primaryData = data['primaryData'];
       secondaryData = data['secondaryData'];
     });
@@ -124,12 +128,14 @@ class _HomePageState extends State<HomePage> {
 }
 
 class ComparisonChart extends StatefulWidget {
-  final List<FlSpot> primaryData;
-  final List<FlSpot> secondaryData;
+  final List<double> primaryData;
+  final List<double> secondaryData;
   final String primaryLabel;
   final String secondaryLabel;
   final List<String> crossAxisLabels;
   final bool showComparison;
+  final double? maxY;
+  final double? minY;
   const ComparisonChart({
     super.key,
     required this.primaryData,
@@ -137,6 +143,8 @@ class ComparisonChart extends StatefulWidget {
     required this.primaryLabel,
     required this.secondaryLabel,
     required this.crossAxisLabels,
+    this.maxY,
+    this.minY,
     this.showComparison = false,
   });
 
@@ -149,6 +157,13 @@ class _ComparisonChartState extends State<ComparisonChart> {
   String selectedFilter = '1M';
   FlSpot? selectedSpot;
 
+  List<FlSpot> generateSpots(List<double> values) {
+    return List.generate(
+      values.length,
+      (index) => FlSpot(index.toDouble(), values[index]),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -156,8 +171,8 @@ class _ComparisonChartState extends State<ComparisonChart> {
       child: LineChart(
         LineChartData(
           clipData: const FlClipData.none(),
-          minY: 800,
-          maxY: 1600,
+          maxY: widget.maxY ?? widget.primaryData.reduce(max),
+          minY: widget.minY ?? widget.primaryData.reduce(min),
           extraLinesData: ExtraLinesData(
             extraLinesOnTop:
                 true, // As linhas extras serão desenhadas acima do gráfico padrão
@@ -261,7 +276,7 @@ class _ComparisonChartState extends State<ComparisonChart> {
           ),
           lineBarsData: [
             LineChartBarData(
-              spots: widget.primaryData,
+              spots: generateSpots(widget.primaryData),
               isCurved: true,
               color: Colors.green,
               dotData: const FlDotData(show: false),
@@ -269,7 +284,7 @@ class _ComparisonChartState extends State<ComparisonChart> {
             ),
             if (widget.showComparison)
               LineChartBarData(
-                spots: widget.secondaryData,
+                spots: generateSpots(widget.secondaryData),
                 isCurved: true,
                 color: Colors.brown,
                 dotData: const FlDotData(show: false),
