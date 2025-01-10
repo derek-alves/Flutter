@@ -5,35 +5,55 @@ Map<String, dynamic> getDataForFilter(
 ) {
   final jsonData = rollingPerformanceMock;
 
+  // Dados do fundo ordenados por data
   final Map<String, double> fundData = jsonData["LU0072462426"] ?? {};
-  final List<double> primaryValues = fundData.values
-      .map((value) => value * 10)
-      .toList(); // Convert to thousands
+  final List<MapEntry<String, double>> sortedData = fundData.entries.toList()
+    ..sort((a, b) => a.key.compareTo(b.key)); // Ordenar por data
 
-  int dataLimit;
+  // Datas disponíveis
+  final DateTime firstDate = DateTime.parse(sortedData.first.key);
+  int daysLimit; // Define o limite de dias com base no filtro
+  int step; // Define o intervalo para granularidade
   switch (filter) {
     case '6M':
-      dataLimit = 180;
+      daysLimit = 180;
+      step = 7; // Semanal
       break;
     case '1A':
-      dataLimit = 365;
+      daysLimit = 365;
+      step = 7; // Semanal
       break;
     case '3A':
-      dataLimit = 365 * 3;
+      daysLimit = 365 * 3;
+      step = 30; // Mensal
       break;
     case '5A':
-      dataLimit = 365 * 5;
+      daysLimit = 365 * 5;
+      step = 30; // Mensal
       break;
-    default:
-      dataLimit = primaryValues.length;
+    default: // "Tudo"
+      daysLimit = sortedData.length;
+      step = 30; // Mensal
       break;
   }
 
-  // Limit data to the specified range
-  final List<double> limitedPrimaryValues =
-      primaryValues.take(dataLimit).toList();
+  // Define o intervalo de tempo a partir da primeira data
+  final DateTime startDate = firstDate;
+  final DateTime endDate = firstDate.add(Duration(days: daysLimit));
 
-  // Generate dummy secondary data
+  // Filtra os dados no intervalo e aplica a granularidade
+  final List<double> limitedPrimaryValues = sortedData
+      .where((entry) =>
+          DateTime.parse(entry.key).isAfter(startDate) &&
+          DateTime.parse(entry.key).isBefore(endDate))
+      .toList()
+      .asMap()
+      .entries
+      .where((entry) => entry.key % step == 0) // Aplica o intervalo
+      .map((entry) => entry.value.value * 10) // Converte para milhares
+      .toList();
+
+  // Gerar dados secundários (apenas para exemplo)
   final List<double> secondaryValues = List.generate(
     limitedPrimaryValues.length,
     (index) => limitedPrimaryValues[index] + (index % 10).toDouble(),

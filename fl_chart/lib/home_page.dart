@@ -174,54 +174,15 @@ class _ComparisonChartState extends State<ComparisonChart> {
           maxY: widget.maxY ?? widget.primaryData.reduce(max),
           minY: widget.minY ?? widget.primaryData.reduce(min),
           extraLinesData: ExtraLinesData(
-            extraLinesOnTop:
-                true, // As linhas extras serão desenhadas acima do gráfico padrão
+              extraLinesOnTop:
+                  true, // As linhas extras serão desenhadas acima do gráfico padrão
 
-            horizontalLines: [
-              for (double y in [
-                600,
-                700,
-                800,
-                900,
-                1000,
-                1100,
-                1200,
-                1300,
-                1400,
-                1500,
-              ])
-                HorizontalLine(
-                  y: y, // Posição da linha no eixo Y
-                  color: Colors.grey.withOpacity(0.5),
-                  strokeWidth: 1,
-                  dashArray: null, // Deixe como null para linhas sólidas
-                  label: HorizontalLineLabel(
-                    show: true,
-                    alignment: Alignment
-                        .topRight, // Posição das labels no topo da linha
-                    padding: const EdgeInsets.only(
-                        right: 0), // Espaçamento à direita
-                    style: const TextStyle(
-                      fontSize: 12,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    labelResolver: (line) =>
-                        '\$${line.y.toInt()}', // Formato das labels
-                  ),
-                ),
-            ],
-          ),
-          gridData: FlGridData(
+              horizontalLines: generateHorizontalLines(
+                  data: widget.primaryData, numberOfLines: 10)),
+          gridData: const FlGridData(
             show: true,
-            drawHorizontalLine: true,
+            drawHorizontalLine: false,
             drawVerticalLine: false,
-            getDrawingHorizontalLine: (value) {
-              return FlLine(
-                color: Colors.grey.withOpacity(0.5),
-                strokeWidth: 1,
-              );
-            },
           ),
           titlesData: FlTitlesData(
             topTitles:
@@ -363,52 +324,107 @@ class _ComparisonChartState extends State<ComparisonChart> {
     );
   }
 
+  List<HorizontalLine> generateHorizontalLines({
+    required List<double> data,
+    required int numberOfLines,
+  }) {
+    if (data.isEmpty) return [];
+
+    double minValue = data.reduce((a, b) => a < b ? a : b);
+    double maxValue = data.reduce((a, b) => a > b ? a : b);
+
+    // Expande o range para criar um espaço visual melhor no gráfico
+    double padding = (maxValue - minValue) * 0.1; // 10% do range como margem
+    minValue -= padding;
+    maxValue += padding;
+
+    // Calcula os intervalos uniformes
+    double step = (maxValue - minValue) / (numberOfLines - 1);
+
+    // Gera as linhas horizontais
+    return List.generate(numberOfLines, (index) {
+      double yValue = minValue + step * index;
+      return HorizontalLine(
+        y: yValue, // Posição da linha no eixo Y
+        color: Colors.grey.withOpacity(0.5),
+        strokeWidth: 1,
+        dashArray: null, // Deixe como null para linhas sólidas
+        label: HorizontalLineLabel(
+          show: true,
+          alignment: Alignment.topRight, // Posição das labels no topo da linha
+          padding: const EdgeInsets.only(right: 0), // Espaçamento à direita
+          style: const TextStyle(
+            fontSize: 12,
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+          labelResolver: (line) => '\$${line.y.toInt()}', // Formato das labels
+        ),
+      );
+    });
+  }
+
   LineTooltipItem _getLineTooltipItem(
     String clickedDate,
     String primaryValue,
     String? secondaryValue,
   ) {
     return LineTooltipItem(
-        '$clickedDate\n',
-        const TextStyle(
-          color: Colors.black,
-          fontWeight: FontWeight.bold,
-        ),
-        textAlign: TextAlign.start,
-        children: [
-          TextSpan(
-            text: '\$$primaryValue: ',
-            style: const TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.w400,
+      '$clickedDate\n',
+      const TextStyle(
+        color: Colors.black,
+        fontWeight: FontWeight.bold,
+      ),
+      textAlign: TextAlign.start,
+      children: [
+        TextSpan(
+          text: '■ ', // Quadrado para o valor primário
+          style: const TextStyle(
+            color: Colors.green, // Cor do quadrado
+            fontWeight: FontWeight.bold,
+          ),
+          children: [
+            TextSpan(
+              text: '\$$primaryValue: ',
+              style: const TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.w400,
+              ),
             ),
-            children: const [
+            const TextSpan(
+              text: '+10%\n',
+              style: TextStyle(
+                color: Colors.green,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ],
+        ),
+        if (widget.showComparison && secondaryValue != null)
+          TextSpan(
+            text: '■ ', // Quadrado para o valor secundário
+            style: const TextStyle(
+              color: Colors.red, // Cor do quadrado
+              fontWeight: FontWeight.bold,
+            ),
+            children: [
               TextSpan(
-                text: '+10%\n',
+                text: '\$$secondaryValue: ',
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              const TextSpan(
+                text: '-64%',
                 style: TextStyle(
-                  color: Colors.green,
+                  color: Colors.red,
                   fontWeight: FontWeight.w400,
                 ),
               ),
             ],
           ),
-          if (widget.showComparison && secondaryValue != null)
-            TextSpan(
-              text: '\$$secondaryValue: ',
-              style: const TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.w400,
-              ),
-              children: const [
-                TextSpan(
-                  text: '-64%',
-                  style: TextStyle(
-                    color: Colors.red,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ],
-            )
-        ]);
+      ],
+    );
   }
 }
