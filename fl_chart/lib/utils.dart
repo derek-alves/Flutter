@@ -37,30 +37,41 @@ Map<String, dynamic> getDataForFilter(
       break;
   }
 
-  // Define o intervalo de tempo a partir da primeira data
   final DateTime startDate = firstDate;
   final DateTime endDate = firstDate.add(Duration(days: daysLimit));
 
-  // Filtra os dados no intervalo e aplica a granularidade
-  final List<double> limitedPrimaryValues = sortedData
+// Filter the data within the interval and apply the granularity
+  final List<MapEntry<String, double>> filteredData = sortedData
       .where((entry) =>
           DateTime.parse(entry.key).isAfter(startDate) &&
           DateTime.parse(entry.key).isBefore(endDate))
-      .toList()
-      .asMap()
-      .entries
-      .where((entry) => entry.key % step == 0) // Aplica o intervalo
-      .map((entry) => entry.value.value * 10) // Converte para milhares
       .toList();
 
-  // Gerar dados secundários (apenas para exemplo)
+// Apply the granularity and extract both keys and values
+  final List<String> selectedKeys = [];
+  final List<double> limitedPrimaryValues = filteredData
+      .asMap()
+      .entries
+      .where((entry) {
+        final isSelected = entry.key % step == 0; // Apply granularity
+        if (isSelected) {
+          selectedKeys.add(entry.value.key); // Collect the key
+        }
+        return isSelected;
+      })
+      .map((entry) => entry.value.value * 10) // Convert to thousands
+      .toList();
+
+// Generate secondary data (just for example)
   final List<double> secondaryValues = List.generate(
     limitedPrimaryValues.length,
     (index) => limitedPrimaryValues[index] + (index % 10).toDouble(),
   );
 
+// Return both the data and the keys
   return {
     'primaryData': limitedPrimaryValues,
     'secondaryData': secondaryValues,
+    'selectedLabels': selectedKeys, // Include selected keys
   };
 }
