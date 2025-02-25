@@ -10,7 +10,7 @@ class SimpleLineGraph extends StatelessWidget {
       appBar: AppBar(
         title: const Text(''),
       ),
-      body: Container(
+      body: SizedBox(
         width: double.maxFinite,
         height: 300,
         child: LineChart(

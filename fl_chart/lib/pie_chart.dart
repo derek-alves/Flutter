@@ -32,7 +32,7 @@ class PieChartWithNormalizedData extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Gráfico de Pizza com Normalização"),
+        title: const Text("Gráfico de Pizza com Normalização"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -172,7 +172,7 @@ class PieChartWithNormalizedData extends StatelessWidget {
 }
 
 void main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     home: PieChartWithNormalizedData(
       assetLocations: [
         AssetLocation(type: AssetType.stocks, percent: 25),
