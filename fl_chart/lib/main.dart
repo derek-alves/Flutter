@@ -1,10 +1,22 @@
 // Example usage
 import 'package:flutter/material.dart';
-import 'package:test/simple_line_graph.dart';
+import 'package:test/chart_builder.dart';
 
 void main() {
-  runApp(const MaterialApp(
-    home: SimpleLineGraph(),
+  const List<double> points = [
+    1,
+    3,
+    7,
+    6,
+    8,
+  ];
+
+  runApp(MaterialApp(
+    home: Scaffold(
+      body: SafeArea(
+        child: ChartBuilder().data(points).build(),
+      ),
+    ),
   ));
 }
 // Função para calcular o MDC (máximo divisor comum) de dois números inteiros.
