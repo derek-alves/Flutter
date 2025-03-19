@@ -1,15 +1,15 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-/// Configuração do gráfico, agora incluindo os pontos de dados
-class ChartConfig {
+/// Configuração para uma única linha do gráfico
+class LineConfig {
   final Color color;
   final bool isCurved;
   final bool isDotted;
   final bool isFilled;
   final List<FlSpot> data;
 
-  const ChartConfig({
+  const LineConfig({
     required this.color,
     this.isCurved = false,
     this.isDotted = false,
@@ -18,14 +18,14 @@ class ChartConfig {
   });
 
   /// Permite criar uma nova configuração com algumas propriedades alteradas
-  ChartConfig copyWith({
+  LineConfig copyWith({
     Color? color,
     bool? isCurved,
     bool? isDotted,
     bool? isFilled,
     List<FlSpot>? data,
   }) {
-    return ChartConfig(
+    return LineConfig(
       color: color ?? this.color,
       isCurved: isCurved ?? this.isCurved,
       isDotted: isDotted ?? this.isDotted,
@@ -35,71 +35,81 @@ class ChartConfig {
   }
 }
 
-/// Builder para o gráfico utilizando FLChart
-class ChartBuilder {
-  final ChartConfig config;
+/// Builder para a construção de uma linha individual do gráfico
+class LineBuilder {
+  final LineConfig config;
 
-  ChartBuilder({ChartConfig? config})
-      : config = config ?? const ChartConfig(color: Colors.blue);
+  LineBuilder({LineConfig? config})
+      : config = config ?? const LineConfig(color: Colors.blue);
 
-  /// Define a cor do gráfico
-  ChartBuilder color(Color newColor) {
-    return ChartBuilder(config: config.copyWith(color: newColor));
+  /// Define a cor da linha
+  LineBuilder color(Color newColor) {
+    return LineBuilder(config: config.copyWith(color: newColor));
   }
 
   /// Define que a linha será curva
-  ChartBuilder curved() {
-    return ChartBuilder(config: config.copyWith(isCurved: true));
+  LineBuilder curved() {
+    return LineBuilder(config: config.copyWith(isCurved: true));
   }
 
   /// Define que a linha será pontilhada
-  ChartBuilder dotted() {
-    return ChartBuilder(config: config.copyWith(isDotted: true));
+  LineBuilder dotted() {
+    return LineBuilder(config: config.copyWith(isDotted: true));
   }
 
-  /// Define que a área abaixo da linha será preenchida com um gradiente
-  ChartBuilder filled() {
-    return ChartBuilder(config: config.copyWith(isFilled: true));
+  /// Define que a área abaixo da linha será preenchida
+  LineBuilder filled() {
+    return LineBuilder(config: config.copyWith(isFilled: true));
   }
 
-  /// Adiciona os pontos de dados ao gráfico
-  /// Adiciona os pontos de dados ao gráfico a partir de uma lista de valores Y
-  ChartBuilder data(List<double> values) {
+  /// Adiciona os pontos de dados à linha a partir de uma lista de valores Y
+  LineBuilder data(List<double> values) {
     final List<FlSpot> spots = values.asMap().entries.map((entry) {
       return FlSpot(entry.key.toDouble(), entry.value);
     }).toList();
 
-    return ChartBuilder(config: config.copyWith(data: spots));
+    return LineBuilder(config: config.copyWith(data: spots));
   }
 
-  /// Monta o widget do gráfico com base nas configurações e nos dados
-  Widget build() {
+  /// Constrói o objeto LineChartBarData com base na configuração
+  LineChartBarData build() {
+    return LineChartBarData(
+      spots: config.data,
+      color: config.color,
+      isCurved: config.isCurved,
+      dashArray: config.isDotted ? [5, 5] : null,
+      belowBarData: BarAreaData(
+        show: config.isFilled,
+        gradient: config.isFilled
+            ? LinearGradient(
+                colors: [
+                  config.color.withOpacity(0.5),
+                  config.color.withOpacity(0.0),
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              )
+            : null,
+      ),
+    );
+  }
+}
+
+/// Widget que monta o gráfico utilizando uma lista de LineBuilder para possibilitar múltiplas linhas
+class ChartLine extends StatelessWidget {
+  final List<LineBuilder> lines;
+
+  const ChartLine({super.key, required this.lines});
+
+  @override
+  Widget build(BuildContext context) {
     return SizedBox(
       height: 300,
-      width: double.maxFinite,
+      width: double.infinity,
       child: LineChart(
         LineChartData(
-          lineBarsData: [
-            LineChartBarData(
-              spots: config.data,
-              color: config.color,
-              isCurved: config.isCurved,
-              dashArray: config.isDotted ? [5, 5] : null,
-              belowBarData: BarAreaData(
-                show: config.isFilled,
-                gradient: config.isFilled
-                    ? LinearGradient(
-                        colors: [
-                          config.color.withOpacity(0.5),
-                          config.color.withOpacity(0.0),
-                        ],
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                      )
-                    : null,
-              ),
-            ),
-          ],
+          lineBarsData:
+              lines.map((lineBuilder) => lineBuilder.build()).toList(),
         ),
       ),
     );

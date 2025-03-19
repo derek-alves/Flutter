@@ -3,18 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:test/chart_builder.dart';
 
 void main() {
-  const List<double> points = [
-    1,
-    3,
-    7,
-    6,
-    8,
-  ];
-
   runApp(MaterialApp(
     home: Scaffold(
       body: SafeArea(
-        child: ChartBuilder().data(points).build(),
+        child: ChartLine(
+          lines: [
+            LineBuilder().color(Colors.red).curved().data([1, 2, 3, 4]),
+            LineBuilder()
+                .color(Colors.green)
+                .dotted()
+                .filled()
+                .data([4, 3, 2, 1]),
+          ],
+        ),
       ),
     ),
   ));
