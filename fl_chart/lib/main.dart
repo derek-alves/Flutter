@@ -6,15 +6,16 @@ void main() {
   runApp(MaterialApp(
     home: Scaffold(
       body: SafeArea(
-        child: ChartLine(
-          lines: [
-            LineBuilder().color(Colors.red).curved().data([1, 2, 3, 4]),
-            LineBuilder()
-                .color(Colors.green)
-                .dotted()
-                .filled()
-                .data([4, 3, 2, 1]),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ChartLine(
+            showLabels: true,
+            lines: [
+              LineBuilder().color(Colors.red).curved().data(
+                [1, 4, 3],
+              ),
+            ],
+          ),
         ),
       ),
     ),

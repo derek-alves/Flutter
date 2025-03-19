@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:test/chart_builder_helper.dart';
 
 /// Configuração para uma única linha do gráfico
 class LineConfig {
@@ -7,7 +8,7 @@ class LineConfig {
   final bool isCurved;
   final bool isDotted;
   final bool isFilled;
-  final List<FlSpot> data;
+  final List<double> data;
 
   const LineConfig({
     required this.color,
@@ -23,7 +24,7 @@ class LineConfig {
     bool? isCurved,
     bool? isDotted,
     bool? isFilled,
-    List<FlSpot>? data,
+    List<double>? data,
   }) {
     return LineConfig(
       color: color ?? this.color,
@@ -64,20 +65,19 @@ class LineBuilder {
 
   /// Adiciona os pontos de dados à linha a partir de uma lista de valores Y
   LineBuilder data(List<double> values) {
-    final List<FlSpot> spots = values.asMap().entries.map((entry) {
-      return FlSpot(entry.key.toDouble(), entry.value);
-    }).toList();
-
-    return LineBuilder(config: config.copyWith(data: spots));
+    return LineBuilder(config: config.copyWith(data: values));
   }
 
   /// Constrói o objeto LineChartBarData com base na configuração
   LineChartBarData build() {
     return LineChartBarData(
-      spots: config.data,
+      spots: config.data.asMap().entries.map((entry) {
+        return FlSpot(entry.key.toDouble(), entry.value);
+      }).toList(),
       color: config.color,
       isCurved: config.isCurved,
       dashArray: config.isDotted ? [5, 5] : null,
+      dotData: const FlDotData(show: false),
       belowBarData: BarAreaData(
         show: config.isFilled,
         gradient: config.isFilled
@@ -96,22 +96,119 @@ class LineBuilder {
 }
 
 /// Widget que monta o gráfico utilizando uma lista de LineBuilder para possibilitar múltiplas linhas
-class ChartLine extends StatelessWidget {
+class ChartLine extends StatelessWidget with ChartBuilderHelper {
   final List<LineBuilder> lines;
+  final double? targetValue;
+  final bool showLabels;
+  final String Function(double value)? bottomTitleBuilder;
+  final String Function(double value)? leftTitleBuilder;
 
-  const ChartLine({super.key, required this.lines});
+  ChartLine({
+    super.key,
+    required this.lines,
+    this.bottomTitleBuilder,
+    this.leftTitleBuilder,
+    this.targetValue,
+    this.showLabels = false,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final (
+      :yMax,
+      :yMin,
+      :yAxisValues,
+      :xMax,
+      :xMin,
+    ) = getDynamicAxisFromPerformances(
+      lines: lines,
+      target: targetValue,
+    );
+
     return SizedBox(
       height: 300,
       width: double.infinity,
       child: LineChart(
         LineChartData(
+          clipData: const FlClipData.vertical(),
+          maxX: xMax,
+          minX: xMin,
+          maxY: yMax,
+          minY: yMin,
+          gridData: const FlGridData(
+            drawHorizontalLine: false,
+            drawVerticalLine: false,
+          ),
+          titlesData: FlTitlesData(
+            topTitles: const AxisTitles(),
+            leftTitles: const AxisTitles(),
+            rightTitles: const AxisTitles(),
+            bottomTitles: showLabels
+                ? AxisTitles(
+                    axisNameSize: 38,
+                    sideTitles: getSideTitlesFromPerformance(
+                      size: xMax,
+                      textStyle: const TextStyle(),
+                      bottomTitleBuilder: bottomTitleBuilder,
+                    ),
+                    axisNameWidget: getAxiesNameWidget(
+                      size: xMax,
+                      textStyle: const TextStyle(),
+                      bottomTitleBuilder: bottomTitleBuilder,
+                    ),
+                  )
+                : const AxisTitles(),
+          ),
+          extraLinesData: showLabels
+              ? ExtraLinesData(
+                  horizontalLines: generateHorizontalLines(
+                    data: yAxisValues,
+                    target: targetValue,
+                    lineColor: Colors.black,
+                    lineColorActive: Colors.grey,
+                  ),
+                )
+              : const ExtraLinesData(),
+          borderData: FlBorderData(
+            show: true,
+            border: const Border.symmetric(),
+          ),
           lineBarsData:
               lines.map((lineBuilder) => lineBuilder.build()).toList(),
         ),
+        curve: Curves.easeInOut,
+        duration: const Duration(milliseconds: 300),
       ),
     );
+  }
+
+  List<HorizontalLine> generateHorizontalLines({
+    required List<double> data,
+    required double? target,
+    required Color lineColor,
+    required Color lineColorActive,
+    String Function(double value)? leftTitleBuilder,
+  }) {
+    if (data.isEmpty) return [];
+
+    return data
+        .map(
+          (value) => HorizontalLine(
+            y: value,
+            color: target == value ? lineColorActive : lineColor,
+            strokeWidth: 0.8,
+            label: HorizontalLineLabel(
+              show: true,
+              alignment: Alignment.topRight,
+              padding: EdgeInsets.zero,
+              labelResolver: (line) {
+                return leftTitleBuilder == null
+                    ? line.y.toString()
+                    : leftTitleBuilder(line.y);
+              },
+            ),
+          ),
+        )
+        .toList();
   }
 }
