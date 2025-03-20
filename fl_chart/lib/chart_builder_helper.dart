@@ -9,24 +9,29 @@ mixin ChartBuilderHelper on Widget {
     double yMin,
     double yMax,
     double xMax,
-    double? xMin,
+    double xMin,
     List<double> yAxisValues,
+    int maxItems,
   }) getDynamicAxisFromPerformances({
     required List<LineBuilder> lines,
     double? target,
     int maxItems = 10,
   }) {
     final result = getAxiesFromPerformance(lines);
-    final currentMaxItems =
-        result.maxItems < maxItems ? result.maxItems : maxItems;
+
     List<double> yValues = [];
+    double maxY = result.maxY;
+    double minY = result.minY;
     if (target != null) {
-      yValues = _getAxisWithTarget(
+      final axis = _getAxisWithTarget(
         target: target,
-        maxItems: currentMaxItems,
-        maxY: result.maxY,
-        minY: result.minY,
+        maxItems: maxItems,
+        maxY: maxY,
+        minY: minY,
       );
+      yValues = axis.axisValues;
+      minY = axis.minY;
+      maxY = axis.maxY;
     } else {
       yValues = _getAxisWithoutTarget(
         maxItems: maxItems,
@@ -34,11 +39,12 @@ mixin ChartBuilderHelper on Widget {
       );
     }
     return (
-      yMax: result.maxY,
-      yMin: result.minY,
+      yMax: maxY,
+      yMin: minY,
       yAxisValues: yValues,
       xMin: result.minX,
       xMax: result.maxX,
+      maxItems: result.maxItems,
     );
   }
 
@@ -84,7 +90,11 @@ mixin ChartBuilderHelper on Widget {
     return step;
   }
 
-  List<double> _getAxisWithTarget({
+  ({
+    double minY,
+    double maxY,
+    List<double> axisValues,
+  }) _getAxisWithTarget({
     required double target,
     required int maxItems,
     required double maxY,
@@ -106,13 +116,18 @@ mixin ChartBuilderHelper on Widget {
     );
 
     final double firstValue = target - targetIndex * step;
+    final double lastValue = firstValue + (maxItems - 1) * step;
 
     final List<double> resultado = List.generate(
       maxItems,
       (i) => firstValue + i * step,
     );
 
-    return resultado;
+    return (
+      axisValues: resultado,
+      maxY: lastValue,
+      minY: firstValue,
+    );
   }
 
   int getTargetIndex({
@@ -150,9 +165,9 @@ mixin ChartBuilderHelper on Widget {
 
     double dynamicMaxY = data.reduce((a, b) => a > b ? a : b);
     double dynamicMinY = data.reduce((a, b) => a < b ? a : b);
-    double dynamicMaxX = (longestList.length - 1).toDouble();
+    double dynamicMaxX = (longestList.length - 1);
 
-    double? minX;
+    double minX = 0;
 
     double yExtraSize = (dynamicMaxY - dynamicMinY) * 0.1;
     if (dynamicMaxY == dynamicMinY) {
@@ -173,7 +188,7 @@ mixin ChartBuilderHelper on Widget {
   }
 
   SideTitles getSideTitlesFromPerformance({
-    required double size,
+    required int size,
     required TextStyle textStyle,
     required String Function(double value)? bottomTitleBuilder,
   }) {
@@ -190,7 +205,7 @@ mixin ChartBuilderHelper on Widget {
           return Text(
             bottomTitleBuilder != null
                 ? bottomTitleBuilder(value)
-                : value.toString(),
+                : value.toStringAsFixed(1),
             style: textStyle,
           );
         }
@@ -201,7 +216,7 @@ mixin ChartBuilderHelper on Widget {
   }
 
   Widget? getAxiesNameWidget({
-    required double size,
+    required int size,
     required TextStyle textStyle,
     required String Function(double value)? bottomTitleBuilder,
   }) {
@@ -236,6 +251,6 @@ typedef AxisData = ({
   double maxX,
   double maxY,
   double minY,
-  double? minX,
+  double minX,
   int maxItems,
 });

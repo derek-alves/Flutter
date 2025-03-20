@@ -11,8 +11,23 @@ void main() {
           child: ChartLine(
             showLabels: true,
             lines: [
-              LineBuilder().color(Colors.red).curved().data(
-                [1, 4, 3],
+              LineBuilder().color(Colors.green).curved().data(
+                [
+                  1,
+                ],
+              ),
+              LineBuilder().color(Colors.red).curved().filled().data(
+                [1, 2, 3, 1, 5, 4],
+              ),
+              LineBuilder().color(Colors.black).curved().dotted().data(
+                [
+                  7,
+                  3,
+                  1,
+                  3,
+                  5,
+                  8,
+                ],
               ),
             ],
           ),

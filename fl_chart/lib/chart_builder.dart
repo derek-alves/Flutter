@@ -70,14 +70,18 @@ class LineBuilder {
 
   /// Constrói o objeto LineChartBarData com base na configuração
   LineChartBarData build() {
+    final spots = (config.data.length == 1)
+        ? [FlSpot(1.5, config.data[0])]
+        : config.data.asMap().entries.map((entry) {
+            return FlSpot(entry.key.toDouble(), entry.value);
+          }).toList();
+
     return LineChartBarData(
-      spots: config.data.asMap().entries.map((entry) {
-        return FlSpot(entry.key.toDouble(), entry.value);
-      }).toList(),
+      spots: spots,
       color: config.color,
       isCurved: config.isCurved,
       dashArray: config.isDotted ? [5, 5] : null,
-      dotData: const FlDotData(show: false),
+      dotData: FlDotData(show: config.data.length == 1 ? true : false),
       belowBarData: BarAreaData(
         show: config.isFilled,
         gradient: config.isFilled
@@ -120,6 +124,7 @@ class ChartLine extends StatelessWidget with ChartBuilderHelper {
       :yAxisValues,
       :xMax,
       :xMin,
+      :maxItems,
     ) = getDynamicAxisFromPerformances(
       lines: lines,
       target: targetValue,
@@ -147,12 +152,12 @@ class ChartLine extends StatelessWidget with ChartBuilderHelper {
                 ? AxisTitles(
                     axisNameSize: 38,
                     sideTitles: getSideTitlesFromPerformance(
-                      size: xMax,
+                      size: maxItems,
                       textStyle: const TextStyle(),
                       bottomTitleBuilder: bottomTitleBuilder,
                     ),
                     axisNameWidget: getAxiesNameWidget(
-                      size: xMax,
+                      size: maxItems,
                       textStyle: const TextStyle(),
                       bottomTitleBuilder: bottomTitleBuilder,
                     ),
