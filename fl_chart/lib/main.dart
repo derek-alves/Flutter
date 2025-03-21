@@ -1,33 +1,30 @@
 // Example usage
 import 'package:flutter/material.dart';
-import 'package:test/chart_builder.dart';
+import 'package:test/chartBuilder/chart_builder.dart';
+import 'package:test/chartBuilder/line_config.dart';
 
 void main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     home: Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(8.0),
           child: ChartLine(
             showLabels: true,
             lines: [
-              LineBuilder().color(Colors.green).curved().data(
-                [
-                  1,
-                ],
+              LineConfig(
+                color: Colors.green,
+                data: [1],
               ),
-              LineBuilder().color(Colors.red).curved().filled().data(
-                [1, 2, 3, 1, 5, 4],
+              LineConfig(
+                color: Colors.red,
+                data: [1, 2, 3, 1, 5, 4],
+                isFilled: true,
               ),
-              LineBuilder().color(Colors.black).curved().dotted().data(
-                [
-                  7,
-                  3,
-                  1,
-                  3,
-                  5,
-                  8,
-                ],
+              LineConfig(
+                color: Colors.black,
+                data: [7, 3, 1, 3, 5, 8],
+                isDotted: true,
               ),
             ],
           ),
