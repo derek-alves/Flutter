@@ -109,7 +109,7 @@ class WidgetConfiguration {
     required double? target,
     required Color lineColor,
     required Color lineColorActive,
-    String Function(double value)? leftTitleBuilder,
+    String Function(double value)? rightTitleBuilder,
   }) {
     if (data.isEmpty) return [];
 
@@ -124,9 +124,9 @@ class WidgetConfiguration {
               alignment: Alignment.topRight,
               padding: EdgeInsets.zero,
               labelResolver: (line) {
-                return leftTitleBuilder == null
+                return rightTitleBuilder == null
                     ? line.y.toString()
-                    : leftTitleBuilder(line.y);
+                    : rightTitleBuilder(line.y);
               },
             ),
           ),

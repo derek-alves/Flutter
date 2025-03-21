@@ -1,25 +1,21 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:test/chartBuilder/chart_builder_helper.dart';
+import 'package:test/chartBuilder/chart_config.dart';
 import 'package:test/chartBuilder/line_config.dart';
 
-/// Configuração para uma única linha do gráfico
-
-/// Builder para a construção de uma linha individual do gráfico
-
-/// Widget que monta o gráfico utilizando uma lista de LineBuilder para possibilitar múltiplas linhas
 class ChartLine extends StatelessWidget {
   final List<LineConfig> lines;
   final double? targetValue;
   final bool showLabels;
   final String Function(double value)? bottomTitleBuilder;
-  final String Function(double value)? leftTitleBuilder;
+  final String Function(double value)? rightTitleBuilder;
 
   const ChartLine({
     super.key,
     required this.lines,
     this.bottomTitleBuilder,
-    this.leftTitleBuilder,
+    this.rightTitleBuilder,
     this.targetValue,
     this.showLabels = false,
   });
@@ -31,63 +27,77 @@ class ChartLine extends StatelessWidget {
       target: targetValue,
     );
 
+    final axisData = initializer.axis;
+
     return SizedBox(
       height: 300,
       width: double.infinity,
       child: LineChart(
-        LineChartData(
-          clipData: const FlClipData.vertical(),
-          maxX: initializer.axis.maxX,
-          minX: initializer.axis.minX,
-          maxY: initializer.axis.maxY,
-          minY: initializer.axis.minY,
-          gridData: const FlGridData(
-            drawHorizontalLine: false,
-            drawVerticalLine: false,
-          ),
-          titlesData: FlTitlesData(
-            topTitles: const AxisTitles(),
-            leftTitles: const AxisTitles(),
-            rightTitles: const AxisTitles(),
-            bottomTitles: showLabels
-                ? AxisTitles(
-                    axisNameSize: 38,
-                    sideTitles: initializer.widget.getSideTitlesFromPerformance(
-                      size: initializer.size,
-                      textStyle: const TextStyle(),
-                      bottomTitleBuilder: bottomTitleBuilder,
-                    ),
-                    axisNameWidget: initializer.widget.getAxiesNameWidget(
-                      size: initializer.size,
-                      textStyle: const TextStyle(),
-                      bottomTitleBuilder: bottomTitleBuilder,
-                    ),
-                  )
-                : const AxisTitles(),
-          ),
-          extraLinesData: showLabels
-              ? ExtraLinesData(
-                  horizontalLines: initializer.widget.generateHorizontalLines(
-                    data: initializer.yValues,
-                    target: targetValue,
-                    lineColor: Colors.black,
-                    lineColorActive: Colors.grey,
-                  ),
-                )
-              : const ExtraLinesData(),
-          borderData: FlBorderData(
-            show: true,
-            border: const Border.symmetric(),
-          ),
-          lineBarsData: lines
-              .map(
-                (lineBuilder) => lineBuilder.toLineChart(),
-              )
-              .toList(),
-        ),
+        _buildChartData(initializer, axisData),
         curve: Curves.easeInOut,
         duration: const Duration(milliseconds: 300),
       ),
     );
+  }
+
+  LineChartData _buildChartData(
+      ChartInitializer initializer, AxisConfiguration axisData) {
+    return LineChartData(
+      clipData: const FlClipData.vertical(),
+      maxX: axisData.maxX,
+      minX: axisData.minX,
+      maxY: axisData.maxY,
+      minY: axisData.minY,
+      gridData: const FlGridData(
+        drawHorizontalLine: false,
+        drawVerticalLine: false,
+      ),
+      titlesData: _buildTitlesData(initializer),
+      extraLinesData: _buildExtraLinesData(initializer),
+      borderData: FlBorderData(
+        show: true,
+        border: const Border.symmetric(),
+      ),
+      lineBarsData:
+          lines.map((lineBuilder) => lineBuilder.toLineChart()).toList(),
+    );
+  }
+
+  FlTitlesData _buildTitlesData(ChartInitializer initializer) {
+    return FlTitlesData(
+      topTitles: const AxisTitles(),
+      leftTitles: const AxisTitles(),
+      rightTitles: const AxisTitles(),
+      bottomTitles: showLabels
+          ? AxisTitles(
+              axisNameSize: 38,
+              sideTitles: initializer.widget.getSideTitlesFromPerformance(
+                size: initializer.size,
+                textStyle: const TextStyle(),
+                bottomTitleBuilder: bottomTitleBuilder,
+              ),
+              axisNameWidget: initializer.widget.getAxiesNameWidget(
+                size: initializer.size,
+                textStyle: const TextStyle(),
+                bottomTitleBuilder: bottomTitleBuilder,
+              ),
+            )
+          : const AxisTitles(),
+    );
+  }
+
+  ExtraLinesData _buildExtraLinesData(ChartInitializer initializer) {
+    if (showLabels) {
+      return ExtraLinesData(
+        horizontalLines: initializer.widget.generateHorizontalLines(
+          data: initializer.yValues,
+          target: targetValue,
+          lineColor: Colors.black,
+          lineColorActive: Colors.grey,
+          rightTitleBuilder: rightTitleBuilder,
+        ),
+      );
+    }
+    return const ExtraLinesData();
   }
 }

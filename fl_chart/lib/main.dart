@@ -4,14 +4,16 @@ import 'package:test/chartBuilder/chart_builder.dart';
 import 'package:test/chartBuilder/line_config.dart';
 
 void main() {
-  runApp(const MaterialApp(
+  runApp(MaterialApp(
     home: Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           child: ChartLine(
+            targetValue: 2,
             showLabels: true,
-            lines: [
+            rightTitleBuilder: (value) => value.toStringAsFixed(2),
+            lines: const [
               LineConfig(
                 color: Colors.green,
                 data: [1],

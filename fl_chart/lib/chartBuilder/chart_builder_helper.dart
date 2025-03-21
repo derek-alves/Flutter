@@ -24,50 +24,54 @@ class ChartInitializer {
     double? target,
     int maxItems = 10,
   }) {
-    final performanceData = _getAxiesFromPerformance(lines);
-    List<double> yValues = [];
-    double maxY = performanceData.maxY;
-    double minY = performanceData.minY;
-
     if (target != null) {
-      final axisWithTarget = _getAxisWithTarget(
+      return _getAxisWithTarget(
         target: target,
         maxItems: maxItems,
-        maxY: maxY,
-        minY: minY,
-      );
-      yValues = axisWithTarget.yValues;
-      minY = axisWithTarget.minY;
-      maxY = axisWithTarget.maxY;
-    } else {
-      yValues = _getAxisWithoutTarget(
-        maxItems: maxItems,
-        performanceData: performanceData,
+        lines: lines,
       );
     }
+    return _getAxisWithoutTarget(
+      maxItems: maxItems,
+      lines: lines,
+    );
+  }
 
+  ChartConfiguration _getAxisWithoutTarget({
+    required int maxItems,
+    required List<LineConfig> lines,
+  }) {
+    final performanceData = _getAxiesFromPerformance(lines);
+    double step =
+        (performanceData.maxY - performanceData.minY) / (maxItems - 1);
+    double firstValue = performanceData.minY;
+
+    final yValues = List.generate(maxItems, (i) => firstValue + i * step);
     return ChartConfiguration(
       widget: WidgetConfiguration(),
       axis: AxisConfiguration(
         minX: performanceData.minX,
         maxX: performanceData.maxX,
-        minY: minY,
-        maxY: maxY,
+        minY: performanceData.minY,
+        maxY: performanceData.maxY,
       ),
       yValues: yValues,
       maxItems: performanceData.maxItems,
     );
   }
 
-  List<double> _getAxisWithoutTarget({
-    required int maxItems,
-    required AxisData performanceData,
-  }) {
-    double step =
-        (performanceData.maxY - performanceData.minY) / (maxItems - 1);
-    double firstValue = performanceData.minY;
+  double _defaultStep(double target) => target * 0.01;
 
-    return List.generate(maxItems, (i) => firstValue + i * step);
+  double _calculateStep({
+    required double target,
+    required double minY,
+    required double maxY,
+    required int targetIndex,
+    required int maxItems,
+  }) {
+    final double minDiff = (target - minY) / targetIndex;
+    final double maxDiff = (maxY - target) / (maxItems - 1 - targetIndex);
+    return max(minDiff, maxDiff);
   }
 
   double _getStep({
@@ -77,47 +81,48 @@ class ChartInitializer {
     required int targetIndex,
     required int maxItems,
   }) {
-    if (maxItems <= 1 || minY == maxY) return target * 0.01;
+    final bool hasInsufficientItems = maxItems <= 1;
+    final bool hasNoVariation = minY == maxY;
+    final bool isFirstDataPoint = targetIndex == 0;
+    final bool isLastDataPoint = (maxItems - 1 - targetIndex) == 0;
 
-    if (targetIndex == 0 || (maxItems - 1 - targetIndex) == 0) {
-      return target * 0.01;
+    if (hasInsufficientItems ||
+        hasNoVariation ||
+        isFirstDataPoint ||
+        isLastDataPoint) {
+      return _defaultStep(target);
     }
 
-    final double minDiff = (target - minY) / targetIndex;
-    final double maxDiff = (maxY - target) / (maxItems - 1 - targetIndex);
-    double step = max(minDiff, maxDiff);
+    double step = _calculateStep(
+      target: target,
+      minY: minY,
+      maxY: maxY,
+      targetIndex: targetIndex,
+      maxItems: maxItems,
+    );
 
-    final double epsilon = target * 0.001;
-    step += epsilon;
+    step += target * 0.001;
 
-    if (step < 0) {
-      return target * 0.01;
-    }
-
-    return step;
+    return step < 0 ? _defaultStep(target) : step;
   }
 
-  ({
-    double minY,
-    double maxY,
-    List<double> yValues,
-  }) _getAxisWithTarget({
+  ChartConfiguration _getAxisWithTarget({
     required double target,
     required int maxItems,
-    required double maxY,
-    required double minY,
+    required List<LineConfig> lines,
   }) {
+    final performanceData = _getAxiesFromPerformance(lines);
     int targetIndex = _getTargetIndex(
       maxItems: maxItems,
-      maxY: maxY,
-      minY: minY,
+      maxY: performanceData.maxY,
+      minY: performanceData.minY,
       target: target,
     );
 
     double step = _getStep(
       target: target,
-      minY: minY,
-      maxY: maxY,
+      minY: performanceData.minY,
+      maxY: performanceData.maxY,
       targetIndex: targetIndex,
       maxItems: maxItems,
     );
@@ -128,10 +133,16 @@ class ChartInitializer {
     List<double> axisValues =
         List.generate(maxItems, (i) => firstValue + i * step);
 
-    return (
-      minY: firstValue,
-      maxY: lastValue,
+    return ChartConfiguration(
+      widget: WidgetConfiguration(),
+      axis: AxisConfiguration(
+        minX: performanceData.minX,
+        maxX: performanceData.maxX,
+        minY: firstValue,
+        maxY: lastValue,
+      ),
       yValues: axisValues,
+      maxItems: performanceData.maxItems,
     );
   }
 
@@ -156,35 +167,63 @@ class ChartInitializer {
   }
 
   AxisData _getAxiesFromPerformance(List<LineConfig> lines) {
-    // Junta todos os dados de todas as linhas
-    final List<double> data = lines.expand((line) => line.data).toList();
+    final _DataInfo dataInfo = _extractDataInfo(lines);
+    return _calculateAxisData(dataInfo);
+  }
 
-    // Obtém a lista com maior quantidade de dados entre as linhas
+  _DataInfo _extractDataInfo(List<LineConfig> lines) {
+    final List<double> allData = lines.expand((line) => line.data).toList();
     final List<double> longestList = lines
         .map((line) => line.data)
         .reduce((a, b) => a.length > b.length ? a : b);
+    final double maxValue = allData.reduce((a, b) => a > b ? a : b);
+    final double minValue = allData.reduce((a, b) => a < b ? a : b);
 
-    double dynamicMaxY = data.reduce((a, b) => a > b ? a : b);
-    double dynamicMinY = data.reduce((a, b) => a < b ? a : b);
-    double dynamicMaxX = (longestList.length - 1).toDouble();
+    return _DataInfo(
+      allData: allData,
+      longestList: longestList,
+      maxValue: maxValue,
+      minValue: minValue,
+    );
+  }
+
+  AxisData _calculateAxisData(_DataInfo dataInfo) {
+    double dynamicMaxX = (dataInfo.longestList.length - 1).toDouble();
 
     double minX = 0;
-    double yExtraSize = (dynamicMaxY - dynamicMinY) * 0.1;
+    double yExtraSize = (dataInfo.maxValue - dataInfo.minValue) * 0.1;
 
-    if (dynamicMaxY == dynamicMinY) {
-      yExtraSize = dynamicMaxY / 2;
-      dynamicMinY -= yExtraSize;
-      dynamicMaxY += yExtraSize;
-      dynamicMaxX = 2;
-      minX = 1;
+    if (dataInfo.maxValue == dataInfo.minValue) {
+      yExtraSize = dataInfo.maxValue / 2;
+      return AxisData(
+        minX: 1,
+        maxX: 2,
+        maxY: dataInfo.maxValue + yExtraSize,
+        minY: dataInfo.minValue - yExtraSize,
+        maxItems: dataInfo.longestList.length,
+      );
     }
 
     return AxisData(
       minX: minX,
       maxX: dynamicMaxX,
-      maxY: dynamicMaxY + yExtraSize,
-      minY: dynamicMinY - yExtraSize,
-      maxItems: longestList.length,
+      maxY: dataInfo.maxValue + yExtraSize,
+      minY: dataInfo.minValue - yExtraSize,
+      maxItems: dataInfo.longestList.length,
     );
   }
+}
+
+class _DataInfo {
+  final List<double> allData;
+  final List<double> longestList;
+  final double maxValue;
+  final double minValue;
+
+  _DataInfo({
+    required this.allData,
+    required this.longestList,
+    required this.maxValue,
+    required this.minValue,
+  });
 }
