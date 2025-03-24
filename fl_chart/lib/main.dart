@@ -9,7 +9,7 @@ void main() {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: ChartLine(
+          child: Chart.line(
             targetValue: 2,
             showLabels: true,
             rightTitleBuilder: (value) => value.toStringAsFixed(2),

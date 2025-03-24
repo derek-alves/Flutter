@@ -1,10 +1,31 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:test/chartBuilder/chart_builder_helper.dart';
 import 'package:test/chartBuilder/chart_config.dart';
 import 'package:test/chartBuilder/line_config.dart';
 
-class ChartLine extends StatelessWidget {
+abstract class Chart extends StatelessWidget {
+  factory Chart.line({
+    Key? key,
+    required List<LineConfig> lines,
+    double? targetValue,
+    bool showLabels = false,
+    String Function(double value)? bottomTitleBuilder,
+    String Function(double value)? rightTitleBuilder,
+  }) {
+    return ChartLine(
+      key: key,
+      lines: lines,
+      targetValue: targetValue,
+      showLabels: showLabels,
+      bottomTitleBuilder: bottomTitleBuilder,
+      rightTitleBuilder: rightTitleBuilder,
+    );
+  }
+}
+
+class ChartLine extends StatelessWidget implements Chart {
   final List<LineConfig> lines;
   final double? targetValue;
   final bool showLabels;
@@ -14,10 +35,10 @@ class ChartLine extends StatelessWidget {
   const ChartLine({
     super.key,
     required this.lines,
-    this.bottomTitleBuilder,
-    this.rightTitleBuilder,
     this.targetValue,
     this.showLabels = false,
+    this.bottomTitleBuilder,
+    this.rightTitleBuilder,
   });
 
   @override
