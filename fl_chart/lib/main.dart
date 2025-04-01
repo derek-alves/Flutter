@@ -1,6 +1,7 @@
 // Example usage
 import 'package:flutter/material.dart';
 import 'package:test/chartBuilder/chart_builder.dart';
+import 'package:test/chartBuilder/chart_custom_touch_config.dart';
 import 'package:test/chartBuilder/line_config.dart';
 
 void main() {
@@ -12,6 +13,11 @@ void main() {
           child: Chart.line(
             targetValue: 2,
             showLabels: true,
+            customLineTouchData: CustomLineTouchData(
+              onTouchCallback: (x, y) {
+                print('Eixo X: $x, Eixo Y: $y');
+              },
+            ),
             rightTitleBuilder: (value) => value.toStringAsFixed(2),
             lines: const [
               LineConfig(

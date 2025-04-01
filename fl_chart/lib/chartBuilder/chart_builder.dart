@@ -3,6 +3,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:test/chartBuilder/chart_builder_helper.dart';
 import 'package:test/chartBuilder/chart_config.dart';
+import 'package:test/chartBuilder/chart_custom_touch_config.dart';
 import 'package:test/chartBuilder/line_config.dart';
 
 abstract class Chart extends StatelessWidget {
@@ -13,6 +14,7 @@ abstract class Chart extends StatelessWidget {
     bool showLabels = false,
     String Function(double value)? bottomTitleBuilder,
     String Function(double value)? rightTitleBuilder,
+    CustomLineTouchData customLineTouchData = const CustomLineTouchData(),
   }) {
     return ChartLine(
       key: key,
@@ -21,6 +23,7 @@ abstract class Chart extends StatelessWidget {
       showLabels: showLabels,
       bottomTitleBuilder: bottomTitleBuilder,
       rightTitleBuilder: rightTitleBuilder,
+      customLineTouchData: customLineTouchData,
     );
   }
 }
@@ -31,7 +34,7 @@ class ChartLine extends StatelessWidget implements Chart {
   final bool showLabels;
   final String Function(double value)? bottomTitleBuilder;
   final String Function(double value)? rightTitleBuilder;
-
+  final CustomLineTouchData customLineTouchData;
   const ChartLine({
     super.key,
     required this.lines,
@@ -39,6 +42,7 @@ class ChartLine extends StatelessWidget implements Chart {
     this.showLabels = false,
     this.bottomTitleBuilder,
     this.rightTitleBuilder,
+    this.customLineTouchData = const CustomLineTouchData(),
   });
 
   @override
@@ -73,6 +77,7 @@ class ChartLine extends StatelessWidget implements Chart {
         drawHorizontalLine: false,
         drawVerticalLine: false,
       ),
+      lineTouchData: customLineTouchData.data,
       titlesData: _buildTitlesData(initializer),
       extraLinesData: _buildExtraLinesData(initializer),
       borderData: FlBorderData(
