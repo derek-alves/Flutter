@@ -56,6 +56,7 @@ class MeterChart extends StatelessWidget {
               meterData: meterData,
               baseColor: baseColor,
               progress: progress,
+              borderRadius: 12,
             ),
           ),
         );

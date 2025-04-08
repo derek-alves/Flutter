@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:test/mater/chart_meter.dart';
 
-/// CustomPainter que desenha o gráfico do tipo “meter” com tons da baseColor
-/// indo do mais escuro (primeiro item) ao mais claro (último item).
 class MeterChartPainter extends CustomPainter {
   final List<MeterDataConfig> meterData;
   final MaterialColor baseColor;
   final double progress;
+  final double borderRadius; // 👈 Novo parâmetro
 
   MeterChartPainter({
     required this.meterData,
     required this.baseColor,
     required this.progress,
+    this.borderRadius = 0.0, // 👈 valor padrão (sem bordas)
   });
 
   @override
@@ -22,6 +22,7 @@ class MeterChartPainter extends CustomPainter {
 
     double startX = 0.0;
     final paint = Paint()..style = PaintingStyle.fill;
+    final radius = Radius.circular(borderRadius);
 
     for (int i = 0; i < meterData.length; i++) {
       final item = meterData[i];
@@ -30,10 +31,68 @@ class MeterChartPainter extends CustomPainter {
 
       paint.color = _getShadeColor(baseColor, i);
 
-      final rect = Rect.fromLTWH(startX, 0, segmentWidth, size.height);
-      canvas.drawRect(rect, paint);
+      final double left = startX;
+      const double top = 0;
+      final double right = startX + segmentWidth;
+      final double bottom = size.height;
+
+      final rRect = _buildRRect(
+        left: left,
+        top: top,
+        right: right,
+        bottom: bottom,
+        index: i,
+        totalItems: meterData.length,
+        radius: radius,
+      );
+
+      canvas.drawRRect(rRect, paint);
       startX += segmentWidth;
     }
+  }
+
+  RRect _buildRRect({
+    required double left,
+    required double top,
+    required double right,
+    required double bottom,
+    required int index,
+    required int totalItems,
+    required Radius radius,
+  }) {
+    final rect = Rect.fromLTRB(left, top, right, bottom);
+
+    if (totalItems == 1) {
+      // Apenas um segmento → bordas arredondadas em todos os lados
+      return RRect.fromRectAndCorners(
+        rect,
+        topLeft: radius,
+        topRight: radius,
+        bottomLeft: radius,
+        bottomRight: radius,
+      );
+    }
+
+    if (index == 0) {
+      // Primeiro segmento → apenas à esquerda
+      return RRect.fromRectAndCorners(
+        rect,
+        topLeft: radius,
+        bottomLeft: radius,
+      );
+    }
+
+    if (index == totalItems - 1) {
+      // Último segmento → apenas à direita
+      return RRect.fromRectAndCorners(
+        rect,
+        topRight: radius,
+        bottomRight: radius,
+      );
+    }
+
+    // Segmento do meio → sem bordas arredondadas
+    return RRect.fromRectAndCorners(rect);
   }
 
   Color _getShadeColor(MaterialColor baseColor, int index) {
@@ -52,6 +111,7 @@ class MeterChartPainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant MeterChartPainter oldDelegate) {
     return oldDelegate.progress != progress ||
-        oldDelegate.meterData != meterData;
+        oldDelegate.meterData != meterData ||
+        oldDelegate.borderRadius != borderRadius;
   }
 }
