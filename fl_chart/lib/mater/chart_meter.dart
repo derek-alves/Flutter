@@ -31,6 +31,8 @@ class MeterChart extends StatelessWidget {
   final Duration duration;
   final Curve curve;
   final double height;
+  final bool isLoading;
+  final bool disabled;
 
   const MeterChart({
     super.key,
@@ -39,6 +41,8 @@ class MeterChart extends StatelessWidget {
     this.duration = const Duration(milliseconds: 800),
     this.curve = Curves.easeOut,
     this.height = 20,
+    this.isLoading = false,
+    this.disabled = false,
   });
 
   @override
@@ -56,6 +60,8 @@ class MeterChart extends StatelessWidget {
               meterData: meterData,
               baseColor: baseColor,
               progress: progress,
+              isLoading: isLoading,
+              disabled: disabled,
               borderRadius: 12,
             ),
           ),

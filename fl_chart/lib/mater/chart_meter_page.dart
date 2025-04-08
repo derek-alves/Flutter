@@ -21,6 +21,7 @@ class ChartMeterPage extends StatelessWidget {
         child: MeterChart(
           meterData: meterData,
           baseColor: Colors.green,
+          isLoading: true,
           height: 60,
         ),
       ),

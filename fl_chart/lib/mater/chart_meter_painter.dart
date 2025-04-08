@@ -6,12 +6,15 @@ class MeterChartPainter extends CustomPainter {
   final MaterialColor baseColor;
   final double progress;
   final double borderRadius; // 👈 Novo parâmetro
-
+  final bool isLoading;
+  final bool disabled;
   MeterChartPainter({
     required this.meterData,
     required this.baseColor,
     required this.progress,
     this.borderRadius = 0.0, // 👈 valor padrão (sem bordas)
+    this.isLoading = false,
+    this.disabled = false,
   });
 
   @override
@@ -29,7 +32,7 @@ class MeterChartPainter extends CustomPainter {
       final double ratio = item.value / total;
       final double segmentWidth = ratio * size.width * progress;
 
-      paint.color = _getShadeColor(baseColor, i);
+      paint.color = _getSegmentColor(index: i);
 
       final double left = startX;
       const double top = 0;
@@ -95,7 +98,11 @@ class MeterChartPainter extends CustomPainter {
     return RRect.fromRectAndCorners(rect);
   }
 
-  Color _getShadeColor(MaterialColor baseColor, int index) {
+  Color _getSegmentColor({required int index}) {
+    if (isLoading) return Colors.grey[300]!;
+    if (disabled) return Colors.grey[500]!;
+
+    // Colorido normal baseado em baseColor
     final shades = [
       baseColor.shade600,
       baseColor.shade500,
@@ -112,6 +119,8 @@ class MeterChartPainter extends CustomPainter {
   bool shouldRepaint(covariant MeterChartPainter oldDelegate) {
     return oldDelegate.progress != progress ||
         oldDelegate.meterData != meterData ||
-        oldDelegate.borderRadius != borderRadius;
+        oldDelegate.borderRadius != borderRadius ||
+        oldDelegate.isLoading != isLoading ||
+        oldDelegate.disabled != disabled;
   }
 }
