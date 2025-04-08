@@ -6,10 +6,12 @@ import 'package:test/mater/chart_meter.dart';
 class MeterChartPainter extends CustomPainter {
   final List<MeterDataConfig> meterData;
   final MaterialColor baseColor;
+  final double progress;
 
   MeterChartPainter({
     required this.meterData,
     required this.baseColor,
+    required this.progress,
   });
 
   @override
@@ -24,12 +26,9 @@ class MeterChartPainter extends CustomPainter {
     for (int i = 0; i < meterData.length; i++) {
       final item = meterData[i];
       final double ratio = item.value / total;
-      final double segmentWidth = ratio * size.width;
+      final double segmentWidth = ratio * size.width * progress;
 
-      paint.color = _getShadeColor(
-        baseColor,
-        i,
-      );
+      paint.color = _getShadeColor(baseColor, i);
 
       final rect = Rect.fromLTWH(startX, 0, segmentWidth, size.height);
       canvas.drawRect(rect, paint);
@@ -47,11 +46,12 @@ class MeterChartPainter extends CustomPainter {
       baseColor.shade100,
       baseColor.shade50,
     ];
-
-    // Evita erro se tiver mais itens que tons
     return shades[index % shades.length];
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
+  bool shouldRepaint(covariant MeterChartPainter oldDelegate) {
+    return oldDelegate.progress != progress ||
+        oldDelegate.meterData != meterData;
+  }
 }
