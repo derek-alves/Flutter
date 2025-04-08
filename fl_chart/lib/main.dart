@@ -1,41 +1,14 @@
 // Example usage
 import 'package:flutter/material.dart';
-import 'package:test/chartBuilder/chart_builder.dart';
-import 'package:test/chartBuilder/chart_custom_touch_config.dart';
-import 'package:test/chartBuilder/line_config.dart';
+import 'package:test/mater/chart_meter_page.dart';
 
 void main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     home: Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Chart.line(
-            targetValue: 2,
-            showLabels: true,
-            customLineTouchData: CustomLineTouchData(
-              onTouchCallback: (x, y) {
-                print('Eixo X: $x, Eixo Y: $y');
-              },
-            ),
-            rightTitleBuilder: (value) => value.toStringAsFixed(2),
-            lines: const [
-              LineConfig(
-                color: Colors.green,
-                data: [1],
-              ),
-              LineConfig(
-                color: Colors.red,
-                data: [1, 2, 3, 1, 5, 4],
-                isFilled: true,
-              ),
-              LineConfig(
-                color: Colors.black,
-                data: [7, 3, 1, 3, 5, 8],
-                isDotted: true,
-              ),
-            ],
-          ),
+          padding: EdgeInsets.all(8.0),
+          child: ChartMeterPage(),
         ),
       ),
     ),
