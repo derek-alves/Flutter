@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:test/chartBuilder/chart_loading.dart';
 import 'package:test/mater/chart_meter_painter.dart';
 
 /// Dados usados para configurar o gráfico (apenas a porcentagem ou valor de cada segmento).
@@ -47,6 +48,10 @@ class MeterChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (isLoading) {
+      return SizedBox(
+          height: 300, width: double.maxFinite, child: ChartLoadingWidget());
+    }
     return TweenAnimationBuilder<double>(
       tween: Tween(begin: 0.0, end: 1.0),
       duration: duration,
