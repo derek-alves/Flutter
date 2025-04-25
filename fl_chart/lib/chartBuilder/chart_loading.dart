@@ -1,9 +1,15 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 class ChartLoadingWidget extends StatefulWidget {
-  const ChartLoadingWidget({Key? key}) : super(key: key);
+  final bool animate;
+  final Color lineColor;
+
+  const ChartLoadingWidget({
+    Key? key,
+    this.animate = true,
+    this.lineColor = Colors.blue,
+  }) : super(key: key);
 
   @override
   _ChartLoadingWidgetState createState() => _ChartLoadingWidgetState();
@@ -14,7 +20,6 @@ class _ChartLoadingWidgetState extends State<ChartLoadingWidget>
   late final AnimationController _controller;
   late final Animation<double> _curvedAnimation;
 
-  // Dados do gráfico
   final List<double> _data = [
     3,
     5,
@@ -41,7 +46,11 @@ class _ChartLoadingWidgetState extends State<ChartLoadingWidget>
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 3000),
-    )..repeat();
+    );
+
+    if (widget.animate) {
+      _controller.repeat();
+    }
 
     _curvedAnimation =
         CurvedAnimation(parent: _controller, curve: Curves.linear);
@@ -59,15 +68,18 @@ class _ChartLoadingWidgetState extends State<ChartLoadingWidget>
       return AnimatedBuilder(
         animation: _curvedAnimation,
         builder: (context, child) {
-          double progress = _curvedAnimation.value;
-          final (:startFraction, :endFraction) = _getProgression(progress);
+          double progress = widget.animate ? _curvedAnimation.value : 1.0;
+          final fractions = widget.animate
+              ? _getProgression(progress)
+              : (startFraction: 0.0, endFraction: 1.0);
 
           return CustomPaint(
             size: Size(constraints.maxWidth, constraints.maxHeight),
             painter: ChartLoadingPainter(
               data: _data,
-              startFraction: startFraction,
-              endFraction: endFraction,
+              startFraction: fractions.startFraction,
+              endFraction: fractions.endFraction,
+              lineColor: widget.lineColor,
             ),
           );
         },
@@ -75,21 +87,12 @@ class _ChartLoadingWidgetState extends State<ChartLoadingWidget>
     });
   }
 
-  ({
-    double startFraction,
-    double endFraction,
-  }) _getProgression(double progress) {
+  ({double startFraction, double endFraction}) _getProgression(
+      double progress) {
     if (progress < 0.5) {
-      return (
-        startFraction: 0.0,
-        endFraction: progress * 2,
-      );
+      return (startFraction: 0.0, endFraction: progress * 2);
     }
-
-    return (
-      startFraction: (progress - 0.5) * 2,
-      endFraction: 1.0,
-    );
+    return (startFraction: (progress - 0.5) * 2, endFraction: 1.0);
   }
 }
 
@@ -97,11 +100,13 @@ class ChartLoadingPainter extends CustomPainter {
   final List<double> data;
   final double startFraction;
   final double endFraction;
+  final Color lineColor;
 
   ChartLoadingPainter({
     required this.data,
     required this.startFraction,
     required this.endFraction,
+    required this.lineColor,
   });
 
   @override
@@ -116,7 +121,7 @@ class ChartLoadingPainter extends CustomPainter {
 
   Paint _createPaint() {
     return Paint()
-      ..color = Colors.blue
+      ..color = lineColor
       ..strokeWidth = 2.0
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round;
@@ -166,6 +171,7 @@ class ChartLoadingPainter extends CustomPainter {
   bool shouldRepaint(covariant ChartLoadingPainter oldDelegate) {
     return oldDelegate.startFraction != startFraction ||
         oldDelegate.endFraction != endFraction ||
-        oldDelegate.data != data;
+        oldDelegate.data != data ||
+        oldDelegate.lineColor != lineColor;
   }
 }
