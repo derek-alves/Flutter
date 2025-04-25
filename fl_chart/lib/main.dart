@@ -1,6 +1,6 @@
 // Example usage
 import 'package:flutter/material.dart';
-import 'package:test/mater/chart_meter_page.dart';
+import 'package:test/chartBuilder/chart_empty_state.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -8,7 +8,28 @@ void main() {
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(8.0),
-          child: ChartMeterPage(),
+          child: PortfolioChart(
+            displayText: 'A rentabilidade do seu portfólio vai aparecer aqui',
+            dataPoints: [
+              3,
+              5,
+              2,
+              5,
+              6,
+              11,
+              13,
+              10,
+              13,
+              12,
+              15,
+              13,
+              18,
+              19,
+              22,
+              20,
+              24
+            ],
+          ),
         ),
       ),
     ),
