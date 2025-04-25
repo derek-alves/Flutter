@@ -12,12 +12,13 @@ class PortfolioChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-      size: const Size(double.infinity, 200),
-      painter: ChartPainter(dataPoints),
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 140.0),
+    return Column(
+      children: [
+        CustomPaint(
+          size: const Size(double.infinity, 200),
+          painter: ChartPainter(dataPoints),
+        ),
+        Center(
           child: Text(
             displayText,
             style: TextStyle(
@@ -27,7 +28,7 @@ class PortfolioChart extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
         ),
-      ),
+      ],
     );
   }
 }

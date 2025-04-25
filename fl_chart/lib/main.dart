@@ -1,36 +1,35 @@
 // Example usage
 import 'package:flutter/material.dart';
-import 'package:test/chartBuilder/chart_empty_state.dart';
+import 'package:test/chartBuilder/chart_loading.dart';
 
 void main() {
-  runApp(const MaterialApp(
+  runApp(MaterialApp(
     home: Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(8.0),
-          child: PortfolioChart(
-            displayText: 'A rentabilidade do seu portfólio vai aparecer aqui',
-            dataPoints: [
-              3,
-              5,
-              2,
-              5,
-              6,
-              11,
-              13,
-              10,
-              13,
-              12,
-              15,
-              13,
-              18,
-              19,
-              22,
-              20,
-              24
-            ],
-          ),
-        ),
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 200,
+                  child: ChartLoadingWidget(
+                    animate: false,
+                    lineColor: Colors.blue,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Center(
+                  child: Text(
+                    'Carregando dados...',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey[500],
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ],
+            )),
       ),
     ),
   ));
